@@ -3,6 +3,7 @@ import write_db
 
 def main():
 	try:
+		# Test if it crashes out here if can network is not on
 		bus = can_receiver.get_data_bus()
 		while True:
 			message = can_receiver.get_can_line(bus)
