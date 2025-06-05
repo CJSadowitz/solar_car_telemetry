@@ -1,8 +1,82 @@
 <!DOCTYPE html>
 <html>
-	<head><title>Hello World</title></head>
-	<body>
-		<h1>Hello World</h1>
-	</body>
-	<footer></footer>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js"></script>
+        <script type="module" src="{{ url_for('static', filename='scripts/average_speed/array_prediction.js') }}" defer></script>
+        <script type="module" src="{{ url_for('static', filename='scripts/power_map/main.js') }}" defer></script>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Left Column Content: Calculation Outputs -->
+            <div class="left-column">
+                <div class="">
+                    <p>Something</p>
+                </div>
+                <div class="power_map">
+                    <canvas id="canvas" width="600" height = "600"></canvas>
+                </div>
+            </div>
+            <!-- Right Column Content: Input and Car State -->
+            <div class="right-column">
+                <h1> Variables </h1>
+                <form onsubmit="">
+                    <div class="manual">
+                        <h2>Manual Changes</h1>
+                        <div class="variable_component">
+                            <h3>Latitude</h3>
+                            <input type="text">
+                        </div>
+                        <div class="variable_component">
+                            <h3>Longitude</h3>
+                            <input type="text">
+                        </div>
+                        <div class="variable_component">
+                            <h3>Battery Start SoC</h3>
+                            <input type="text">
+                        </div>
+                        <div class="variable_component">
+                            <h3>Weight</h3>
+                            <input type="text">
+                        </div>
+                        <div class="variable_component">
+                            <h3>Cloud Coverage Percentage</h3>
+                            <input type="text">
+                        </div>
+                        <div class="variable_component">
+                            <h3>Weight</h3>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="required">
+                        <h2>Required Inputs</h2>
+                        <div class="variable_component">
+                            <h3>Battery End SoC </h3>
+                            <input type="text" required>
+                        </div>
+                    </div>
+                    <button type="submit">Compute Average Speed</button>
+                </form>
+                <div>
+                    <h2> Car Data </h2>
+                    <h4> Battery SoC </h5>
+                    <p> Something </p>
+                </div>
+            </div>
+        </div>
+    </body>
+    <footer>
+        <script>
+            var canvas = document.getElementById("canvas");
+            var gl = canvas.getContext("webgl");
+            var points = [
+                0, 0, 0, 1, 0,
+                0, 0.5, 1, 0, 0
+            ];
+            window.addEventListener("load", () => {
+                console.log(array_power_t_to_t(new Date("2025-06-04T07:30:00Z"), new Date("2025-06-04T15:30:00Z")) / 1000, "kW*hrs");
+                main(points);
+            });
+        </script>
+    </footer>
 </html>

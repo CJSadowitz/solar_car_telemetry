@@ -1,0 +1,1 @@
+export const drag_coefficent = 0.5; // temp

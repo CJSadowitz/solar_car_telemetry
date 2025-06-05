@@ -1,0 +1,44 @@
+body {
+    background-color: gray;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 5%;
+}
+
+.left-column {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.right-column {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.manual {
+    border: 2px solid black;
+    margin-bottom: 1%;
+    padding: 2%;
+    border-radius: 3%;
+}
+
+.required {
+    border: 2px solid black;
+    margin-bottom: 1%;
+    padding: 2%;
+    border-radius: 3%;
+}
+
+.power_map {
+    text-align: center;
+    margin: auto;
+    width: 50%;
+    border: 2px solid black;
+}
