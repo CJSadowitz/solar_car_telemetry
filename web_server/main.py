@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_cors import CORS
-from get import get_recent_entries
+import get
 
 app = Flask(__name__, static_folder="static")
 CORS(app)
@@ -11,7 +11,7 @@ def home():
 
 @app.route('/get_recent', methods=['GET'])
 def get_db():
-	return {"message": get_recent_entries()}
+	return {"message": get.get_recent_entries()}
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=8008)
