@@ -9,6 +9,10 @@ CORS(app)
 def home():
 	return render_template("index.html")
 
+@app.route('/recent_data')
+def recent_data():
+	return render_template("recent_data.html")
+
 @app.route('/get_recent', methods=['GET'])
 def get_db():
 	return {"message": get.get_recent_entries()}
