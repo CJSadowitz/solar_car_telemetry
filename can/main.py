@@ -10,7 +10,7 @@ def main():
 			if message == None:
 				break
 			data = write_db.clean_message(message)
-			wrtie_db.save_data(data)
+			write_db.save_data(data)
 	except Exception as e:
 		print ("MAIN::unknown exception:", e)
 

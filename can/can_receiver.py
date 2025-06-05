@@ -1,6 +1,8 @@
+import can
+
 def get_data_bus():
 	try:
-		bus = can.interface.Bus(channel="can0", bustype="socketcan")
+		bus = can.interface.Bus(channel="can0", interface="socketcan")
 		return bus
 	except OSError as e:
 		if e.errno != 19:

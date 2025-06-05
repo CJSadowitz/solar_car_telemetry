@@ -1,11 +1,19 @@
 import sqlite3
 
 def clean_message(message):
+	message = format(message)
 	chunks = message.split(' ')
-	can_data = chunks[2].split('#')
+	can_data = chunks[1].split('#')
 	id = can_data[0]
 	data = can_data[1]
 	return [chunks[0], id, data]
+
+def format(msg):
+	timestamp = msg.timestamp
+	id = str(hex(msg.arbitration_id))
+	data = ''.join(f"{byte:02X}" for byte in msg.data)
+	formatted_message = str(timestamp) + ' ' + id[2:] + '#' + str(data)
+	return formatted_message
 
 def save_data(data_list):
 	try:
@@ -16,7 +24,7 @@ def save_data(data_list):
 		can_id = data_list[1]
 		raw = data_list[2]
 
-		cursor.execute("SELECT table_name FROM can_tables WHERE can_id = ?", (can_id,))
+		cursor.execute("SELECT table_name FROM can_devices WHERE can_id = ?", (can_id,))
 		result = cursor.fetchone()
 
 		if result:
