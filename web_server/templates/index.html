@@ -5,6 +5,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js"></script>
         <script type="module" src="{{ url_for('static', filename='scripts/average_speed/array_prediction.js') }}" defer></script>
         <script type="module" src="{{ url_for('static', filename='scripts/power_map/main.js') }}" defer></script>
+	<script src="{{ url_for('static', filename='scripts/server_scripts/get.js') }}"></script>
     </head>
     <body>
         <div class="container">
@@ -77,6 +78,7 @@
                 console.log(array_power_t_to_t(new Date("2025-06-04T07:30:00Z"), new Date("2025-06-04T15:30:00Z")) / 1000, "kW*hrs");
                 main(points);
             });
+	    get_recent()
         </script>
     </footer>
 </html>
