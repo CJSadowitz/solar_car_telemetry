@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>FPU Telementry Home</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js"></script>
         <script type="module" src="{{ url_for('static', filename='scripts/average_speed/array_prediction.js') }}" defer></script>
@@ -8,6 +9,11 @@
 	<script src="{{ url_for('static', filename='scripts/server_scripts/get.js') }}"></script>
     </head>
     <body>
+        <ul>
+            <li><a href="">Home</a></li>
+            <li><a href="">Telemetry Snapshot</a></li>
+            <li><a href="">Strategy</a></li>
+        </ul>
         <div class="container">
             <!-- Left Column Content: Calculation Outputs -->
             <div class="left-column">
@@ -17,51 +23,20 @@
                 <div class="power_map">
                     <canvas id="canvas" width="600" height = "600"></canvas>
                 </div>
+                <div class="">
+                    <p>Something</p>
+                </div>
             </div>
             <!-- Right Column Content: Input and Car State -->
             <div class="right-column">
-                <h1> Variables </h1>
-                <form onsubmit="">
-                    <div class="manual">
-                        <h2>Manual Changes</h1>
-                        <div class="variable_component">
-                            <h3>Latitude</h3>
-                            <input type="text">
-                        </div>
-                        <div class="variable_component">
-                            <h3>Longitude</h3>
-                            <input type="text">
-                        </div>
-                        <div class="variable_component">
-                            <h3>Battery Start SoC</h3>
-                            <input type="text">
-                        </div>
-                        <div class="variable_component">
-                            <h3>Weight</h3>
-                            <input type="text">
-                        </div>
-                        <div class="variable_component">
-                            <h3>Cloud Coverage Percentage</h3>
-                            <input type="text">
-                        </div>
-                        <div class="variable_component">
-                            <h3>Weight</h3>
-                            <input type="text">
-                        </div>
-                    </div>
-                    <div class="required">
-                        <h2>Required Inputs</h2>
-                        <div class="variable_component">
-                            <h3>Battery End SoC </h3>
-                            <input type="text" required>
-                        </div>
-                    </div>
-                    <button type="submit">Compute Average Speed</button>
-                </form>
-                <div>
-                    <h2> Car Data </h2>
-                    <h4> Battery SoC </h5>
-                    <p> Something </p>
+                <div class="row">
+                    <h3>Time Left</h3>
+                </div>
+                <div class="row">
+                    <h3>Battery Percent</h3>
+                </div>
+                <div class="row">
+                    <h3>Speed</h3>
                 </div>
             </div>
         </div>
