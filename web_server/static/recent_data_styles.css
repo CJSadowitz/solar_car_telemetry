@@ -37,8 +37,8 @@ li a:hover {
   padding: 1%;
   max-width: 100vw;
   overflow: hidden;
-  height: 80vh; /* Adjust based on need */
-  overflow: auto; /* Allows scrolling */
+  height: 80vh;
+  overflow: auto;
 }
 
 .item {
@@ -47,5 +47,17 @@ li a:hover {
   padding: 2%;
   margin: 1%;
   text-align: center;
+  position: relative;
 }
 
+.flag {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 10px;
+}
+
+.highlighted {
+    background-color: rgb(209, 87, 57) !important;
+}

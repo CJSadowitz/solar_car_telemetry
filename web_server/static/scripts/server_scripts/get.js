@@ -4,3 +4,9 @@ async function get_recent() {
 	console.log(data);
 	return data;
 }
+
+async function update_tables() {
+	let data = await get_recent();
+	let object = data["message"];
+	console.log(object);
+}
