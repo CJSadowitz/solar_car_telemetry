@@ -1,7 +1,6 @@
 async function get_recent() {
 	let response = await fetch("https://server.deoliveira.tech/get_recent");
 	let data = await response.json();
-	// console.log(data);
 	return data;
 }
 
@@ -26,7 +25,6 @@ async function update_tables() {
 			paragraph.textContent = object[key][subkey];
 			element.appendChild(heading);
 			element.appendChild(paragraph);
-			console.log(object[key][subkey]);
 		}
 	}
 }
