@@ -8,8 +8,15 @@ async function get_recent() {
 async function update_tables() {
 	let data = await get_recent();
 	let object = data["message"];
+
 	for (const key in object) {
-		console.log(key);
-		console.log(object[key]);
+		var element = document.getElementById(key);
+		element.replaceChildren();
+		for (let i = 0; i < object[key].length; i++) {
+			var paragraph = document.createElement("p");
+			paragraph.textContent(String(object[key][i]));
+			element.appendChild(paragraph);
+			console.log(object[key][i]);
+		}
 	}
 }
