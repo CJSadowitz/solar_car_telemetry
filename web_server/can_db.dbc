@@ -1,0 +1,244 @@
+VERSION "Comprehensive CAN DBC File for BMU, CMU, and MPPT"
+
+NS_ :
+    NS_DESC_
+    CM_
+    BA_DEF_
+    BA_
+    VAL_
+
+BU_ :
+    ECU_BMU ECU_CMU ECU_MPPT   // BMU: Battery Pack, CMU: Cell Monitoring Units, MPPT: Solar Controllers
+
+# ------------------ BMU DATA ------------------
+
+BO_ 0x300 BMU_Heartbeat_Sensor: 8 ECU_BMU
+    SG_ Device_ID : 0|32@1+ (1,0) [0|4294967295] "ID" ECU_BMU
+    SG_ Serial_Number : 32|32@1+ (1,0) [0|4294967295] "Serial" ECU_BMU
+
+BO_ 0x3F4 Pack_SoC: 8 ECU_BMU
+    SG_ Pack_SoC : 0|32@1- (1,0) [-1000|1000] "Ah" ECU_BMU
+    SG_ Pack_SoC_Percentage : 32|32@1+ (100,0) [0|100] "%" ECU_BMU
+
+BO_ 0x3F5 Pack_Balance_SoC: 8 ECU_BMU
+    SG_ Pack_Balance_SoC : 0|32@1+ (1,0) [0|1000] "Ah" ECU_BMU
+    SG_ Pack_Balance_SoC_Percentage : 32|32@1+ (100,0) [0|100] "%" ECU_BMU
+
+BO_ 0x3FA Battery_Pack_Info: 8 ECU_BMU
+    SG_ Pack_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_BMU
+    SG_ Pack_Current : 32|32@1+ (0.001,0) [-200|200] "A" ECU_BMU
+
+BO_ 0x3FB Battery_Pack_Status: 8 ECU_BMU
+    SG_ Balance_Voltage_Threshold_Rising : 0|16@1+ (1,0) [0|5000] "mV" ECU_BMU
+    SG_ Balance_Voltage_Threshold_Falling : 16|16@1+ (1,0) [0|5000] "mV" ECU_BMU
+    SG_ CMU_Count : 32|8@1+ (1,0) [0|100] "units" ECU_BMU
+    SG_ BMU_Firmware_Build_Number : 40|16@1+ (1,0) [0|65535] "Version" ECU_BMU
+
+BO_ 0x3FC Battery_Pack_Fan_Status: 8 ECU_BMU
+    SG_ Fan0_Speed : 0|16@1+ (1,0) [0|5000] "rpm" ECU_BMU
+    SG_ Fan1_Speed : 16|16@1+ (1,0) [0|5000] "rpm" ECU_BMU
+    SG_ Current_Consumption_Fans_Contactors : 32|16@1+ (0.001,0) [0|50] "A" ECU_BMU
+    SG_ Current_Consumption_CMUs : 48|16@1+ (0.001,0) [0|50] "A" ECU_BMU
+
+BO_ 0x3F6 Charger_Control_Info: 8 ECU_BMU
+    SG_ Charging_Cell_Voltage_Error : 0|16@1+ (1000,0) [0|10000] "mV" ECU_BMU
+    SG_ Charging_Cell_Temp_Margin : 16|16@1+ (0.1,0) [-40|125] "°C" ECU_BMU
+    SG_ Discharge_Cell_Voltage_Error : 32|16@1+ (1,0) [0|5000] "mV" ECU_BMU
+    SG_ Total_Pack_Capacity : 48|16@1+ (1,0) [0|1000] "Ah" ECU_BMU
+
+BO_ 0x3F7 Precharge_Status: 8 ECU_BMU
+    SG_ Precharge_Contactor_Status : 0|8@1+ (1,0) [0|255] "bitfield" ECU_BMU
+    SG_ Precharge_State : 8|8@1+ (1,0) [0|5] "State" ECU_BMU
+    SG_ Contactor_Supply_Voltage : 16|16@1+ (1000,0) [0|10000] "mV" ECU_BMU
+    SG_ Precharge_Timer_Status : 32|16@1+ (1,0) [0|65535] "bitfield" ECU_BMU
+    SG_ Precharge_Timer_Value : 48|8@1+ (0.01,0) [0|2.55] "s" ECU_BMU
+
+BO_ 0x3F8 Min_Max_Cell_Voltage: 8 ECU_BMU
+    SG_ Min_Cell_Voltage : 0|16@1+ (0.001,0) [0|5] "V" ECU_BMU
+    SG_ Max_Cell_Voltage : 16|16@1+ (0.001,0) [0|5] "V" ECU_BMU
+    SG_ CMU_with_Min_Voltage : 32|8@1+ (1,0) [0|255] "ID" ECU_BMU
+    SG_ Cell_with_Min_Voltage : 40|8@1+ (1,0) [0|255] "ID" ECU_BMU
+    SG_ CMU_with_Max_Voltage : 48|8@1+ (1,0) [0|255] "ID" ECU_BMU
+    SG_ Cell_with_Max_Voltage : 56|8@1+ (1,0) [0|255] "ID" ECU_BMU
+
+BO_ 0x3F9 Min_Max_Cell_Temp: 8 ECU_BMU
+    SG_ Min_Cell_Temp : 0|16@1+ (0.1,0) [-40|125] "°C" ECU_BMU
+    SG_ Max_Cell_Temp : 16|16@1+ (0.1,0) [-40|125] "°C" ECU_BMU
+    SG_ CMU_with_Min_Temp : 32|8@1+ (1,0) [0|255] "ID" ECU_BMU
+    SG_ Cell_with_Min_Temp : 40|8@1+ (1,0) [0|255] "ID" ECU_BMU
+    SG_ CMU_with_Max_Temp : 48|8@1+ (1,0) [0|255] "ID" ECU_BMU
+    SG_ Cell_with_Max_Temp : 56|8@1+ (1,0) [0|255] "ID" ECU_BMU
+
+BO_ 0x3FD Extended_Battery_Pack_Info: 8 ECU_BMU
+    SG_ Pack_Status : 0|32@1+ (1,0) [0|4294967295] "bitfield" ECU_BMU
+    SG_ BMU_Hardware_Version : 32|8@1+ (1,0) [0|255] "Version" ECU_BMU
+    SG_ BMU_Model_ID : 40|8@1+ (1,0) [0|255] "ID" ECU_BMU
+    // The remaining 16 bits can be reserved for future use
+
+# ------------------ CMU DATA ------------------
+# CMU messages are grouped in three per sensor: Serial/Temperature, Cell Voltages 0-3, and Cell Voltages 4-7
+
+// CMU Sensor 1 (IDs 0x301 - 0x303)
+BO_ 0x301 CMU_Sensor1: 8 ECU_CMU
+    SG_ CMU_Serial_Number : 0|32@1+ (1,0) [0|4294967295] "ID" ECU_CMU
+    SG_ CMU_PCB_Temp : 32|16@1+ (0.1,0) [-40|125] "°C" ECU_CMU
+    SG_ CMU_Cell_Temp : 48|16@1+ (0.1,0) [-40|125] "°C" ECU_CMU
+
+BO_ 0x302 CMU_Cell_Voltages1_0_3: 8 ECU_CMU
+    SG_ Cell0_Voltage : 0|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell1_Voltage : 16|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell2_Voltage : 32|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell3_Voltage : 48|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+
+BO_ 0x303 CMU_Cell_Voltages1_4_7: 8 ECU_CMU
+    SG_ Cell4_Voltage : 0|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell5_Voltage : 16|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell6_Voltage : 32|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell7_Voltage : 48|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+
+// CMU Sensor 2 (IDs 0x304 - 0x306)
+BO_ 0x304 CMU_Sensor2: 8 ECU_CMU
+    SG_ CMU_Serial_Number : 0|32@1+ (1,0) [0|4294967295] "ID" ECU_CMU
+    SG_ CMU_PCB_Temp : 32|16@1+ (0.1,0) [-40|125] "°C" ECU_CMU
+    SG_ CMU_Cell_Temp : 48|16@1+ (0.1,0) [-40|125] "°C" ECU_CMU
+
+BO_ 0x305 CMU_Cell_Voltages2_0_3: 8 ECU_CMU
+    SG_ Cell0_Voltage : 0|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell1_Voltage : 16|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell2_Voltage : 32|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell3_Voltage : 48|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+
+BO_ 0x306 CMU_Cell_Voltages2_4_7: 8 ECU_CMU
+    SG_ Cell4_Voltage : 0|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell5_Voltage : 16|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell6_Voltage : 32|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell7_Voltage : 48|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+
+// CMU Sensor 3 (IDs 0x307 - 0x309)
+BO_ 0x307 CMU_Sensor3: 8 ECU_CMU
+    SG_ CMU_Serial_Number : 0|32@1+ (1,0) [0|4294967295] "ID" ECU_CMU
+    SG_ CMU_PCB_Temp : 32|16@1+ (0.1,0) [-40|125] "°C" ECU_CMU
+    SG_ CMU_Cell_Temp : 48|16@1+ (0.1,0) [-40|125] "°C" ECU_CMU
+
+BO_ 0x308 CMU_Cell_Voltages3_0_3: 8 ECU_CMU
+    SG_ Cell0_Voltage : 0|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell1_Voltage : 16|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell2_Voltage : 32|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell3_Voltage : 48|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+
+BO_ 0x309 CMU_Cell_Voltages3_4_7: 8 ECU_CMU
+    SG_ Cell4_Voltage : 0|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell5_Voltage : 16|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell6_Voltage : 32|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell7_Voltage : 48|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+
+// CMU Sensor 4 (IDs 0x30A - 0x30C)
+BO_ 0x30A CMU_Sensor4: 8 ECU_CMU
+    SG_ CMU_Serial_Number : 0|32@1+ (1,0) [0|4294967295] "ID" ECU_CMU
+    SG_ CMU_PCB_Temp : 32|16@1+ (0.1,0) [-40|125] "°C" ECU_CMU
+    SG_ CMU_Cell_Temp : 48|16@1+ (0.1,0) [-40|125] "°C" ECU_CMU
+
+BO_ 0x30B CMU_Cell_Voltages4_0_3: 8 ECU_CMU
+    SG_ Cell0_Voltage : 0|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell1_Voltage : 16|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell2_Voltage : 32|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell3_Voltage : 48|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+
+BO_ 0x30C CMU_Cell_Voltages4_4_7: 8 ECU_CMU
+    SG_ Cell4_Voltage : 0|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell5_Voltage : 16|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell6_Voltage : 32|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+    SG_ Cell7_Voltage : 48|16@1+ (0.001,0) [0|5] "V" ECU_CMU
+
+# ------------------ MPPT DATA ------------------
+
+//
+// MPPT 1 Blocks
+//
+BO_ 0x600 MPPT_1_Input: 8 ECU_MPPT
+    SG_ MPPT_Input_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
+    SG_ MPPT_Input_Current : 32|32@1+ (0.001,0) [0|100] "A" ECU_MPPT
+
+BO_ 0x601 MPPT_1_Output: 8 ECU_MPPT
+    SG_ MPPT_Output_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
+    SG_ MPPT_Output_Current : 32|32@1+ (0.001,0) [0|100] "A" ECU_MPPT
+
+BO_ 0x602 MPPT_1_Temperature: 8 ECU_MPPT
+    SG_ MOSFET_Temp : 0|32@1+ (0.1,0) [-40|125] "°C" ECU_MPPT
+    SG_ Controller_Temp : 32|32@1+ (0.1,0) [-40|125] "°C" ECU_MPPT
+
+BO_ 0x603 MPPT_1_Aux_Power_Supply: 8 ECU_MPPT
+    SG_ Voltage_12V : 0|32@1+ (0.001,0) [0|15] "V" ECU_MPPT
+    SG_ Voltage_3V : 32|32@1+ (0.001,0) [0|5] "V" ECU_MPPT
+
+BO_ 0x604 MPPT_1_Limits: 8 ECU_MPPT
+    SG_ Max_Output_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
+    SG_ Max_Input_Current : 32|32@1+ (0.001,0) [0|100] "A" ECU_MPPT
+
+BO_ 0x605 MPPT_1_Status: 8 ECU_MPPT
+    SG_ CAN_RX_Error_Count : 0|8@1+ (1,0) [0|255] "Errors" ECU_MPPT
+    SG_ CAN_TX_Error_Count : 8|8@1+ (1,0) [0|255] "Errors" ECU_MPPT
+    SG_ CAN_TX_Overflow_Count : 16|8@1+ (1,0) [0|255] "Errors" ECU_MPPT
+    SG_ Error_Flag : 24|8@1+ (1,0) [0|255] "Flags" ECU_MPPT
+    SG_ Limit_Flag : 32|8@1+ (1,0) [0|255] "Flags" ECU_MPPT
+    SG_ MPPT_Mode : 40|8@1+ (1,0) [0|10] "Mode" ECU_MPPT
+    SG_ Test_Counter : 48|8@1+ (1,0) [0|255] "Counter" ECU_MPPT
+
+BO_ 0x606 MPPT_1_Power_Connector: 8 ECU_MPPT
+    SG_ Output_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
+    SG_ Connector_Temp : 32|32@1+ (0.1,0) [-40|125] "°C" ECU_MPPT
+
+BO_ 0x608 MPPT_1_Mode_Send: 8 ECU_MPPT
+    SG_ MPPT_Mode_Send : 0|8@1+ (1,0) [0|255] "Mode" ECU_MPPT
+
+BO_ 0x60A MPPT_1_Max_Output_Voltage_Send: 8 ECU_MPPT
+    SG_ Max_Output_Voltage_Send : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
+
+BO_ 0x60B MPPT_1_Max_Input_Current_Send: 8 ECU_MPPT
+    SG_ Max_Input_Current_Send : 0|32@1+ (0.001,0) [0|100] "A" ECU_MPPT
+
+//
+// MPPT 2 Blocks
+//
+BO_ 0x610 MPPT_2_Input: 8 ECU_MPPT
+    SG_ MPPT_Input_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
+    SG_ MPPT_Input_Current : 32|32@1+ (0.001,0) [0|100] "A" ECU_MPPT
+
+BO_ 0x611 MPPT_2_Output: 8 ECU_MPPT
+    SG_ MPPT_Output_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
+    SG_ MPPT_Output_Current : 32|32@1+ (0.001,0) [0|100] "A" ECU_MPPT
+
+BO_ 0x612 MPPT_2_Temperature: 8 ECU_MPPT
+    SG_ MOSFET_Temp : 0|32@1+ (0.1,0) [-40|125] "°C" ECU_MPPT
+    SG_ Controller_Temp : 32|32@1+ (0.1,0) [-40|125] "°C" ECU_MPPT
+
+BO_ 0x613 MPPT_2_Aux_Power_Supply: 8 ECU_MPPT
+    SG_ Voltage_12V : 0|32@1+ (0.001,0) [0|15] "V" ECU_MPPT
+    SG_ Voltage_3V : 32|32@1+ (0.001,0) [0|5] "V" ECU_MPPT
+
+BO_ 0x614 MPPT_2_Limits: 8 ECU_MPPT
+    SG_ Max_Output_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
+    SG_ Max_Input_Current : 32|32@1+ (0.001,0) [0|100] "A" ECU_MPPT
+
+BO_ 0x615 MPPT_2_Status: 8 ECU_MPPT
+    SG_ CAN_RX_Error_Count : 0|8@1+ (1,0) [0|255] "Errors" ECU_MPPT
+    SG_ CAN_TX_Error_Count : 8|8@1+ (1,0) [0|255] "Errors" ECU_MPPT
+    SG_ CAN_TX_Overflow_Count : 16|8@1+ (1,0) [0|255] "Errors" ECU_MPPT
+    SG_ Error_Flag : 24|8@1+ (1,0) [0|255] "Flags" ECU_MPPT
+    SG_ Limit_Flag : 32|8@1+ (1,0) [0|255] "Flags" ECU_MPPT
+    SG_ MPPT_Mode : 40|8@1+ (1,0) [0|10] "Mode" ECU_MPPT
+    SG_ Test_Counter : 48|8@1+ (1,0) [0|255] "Counter" ECU_MPPT
+
+BO_ 0x616 MPPT_2_Power_Connector: 8 ECU_MPPT
+    SG_ Output_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
+    SG_ Connector_Temp : 32|32@1+ (0.1,0) [-40|125] "°C" ECU_MPPT
+
+// Additional MPPT 2 send messages
+BO_ 0x618 MPPT_2_Mode_Send: 8 ECU_MPPT
+    SG_ MPPT_Mode_Send : 0|8@1+ (1,0) [0|255] "Mode" ECU_MPPT
+
+BO_ 0x61A MPPT_2_Max_Output_Voltage_Send: 8 ECU_MPPT
+    SG_ Max_Output_Voltage_Send : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
+
+BO_ 0x61B MPPT_2_Max_Input_Current_Send: 8 ECU_MPPT
+    SG_ Max_Input_Current_Send : 0|32@1+ (0.001,0) [0|100] "A" ECU_MPPT
