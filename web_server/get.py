@@ -28,7 +28,7 @@ def get_dash_data():
 	battery_percent = cursor.fetchone()
 
 	dash_data = {}
-	dash_data["pack_state_of_charge"] = battery_percent
+	dash_data["pack_state_of_charge"] = can_translater.convert_data("pack_state_of_charge", battery_percent[0])
 	# Include speed from database
 	# Include time left from somewhere
 
