@@ -8,5 +8,8 @@ async function get_recent() {
 async function update_tables() {
 	let data = await get_recent();
 	let object = data["message"];
-	console.log(object);
+	for (const key in object) {
+		console.log(key);
+		console.log(object[key]);
+	}
 }
