@@ -13,6 +13,10 @@ def home():
 def recent_data():
 	return render_template("recent_data.html")
 
+@app.route('/get_dash_data')
+def get_dash_data():
+	return {"message": get.get_dash_data()}
+
 @app.route('/get_recent', methods=['GET'])
 def get_db():
 	return {"message": get.get_recent_entries()}
