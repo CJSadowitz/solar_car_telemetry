@@ -14,7 +14,7 @@ async function update_tables() {
 		element.replaceChildren();
 		for (let i = 0; i < object[key].length; i++) {
 			var paragraph = document.createElement("p");
-			paragraph.textContent(String(object[key][i]));
+			paragraph.textContent = object[key][i];
 			element.appendChild(paragraph);
 			console.log(object[key][i]);
 		}
