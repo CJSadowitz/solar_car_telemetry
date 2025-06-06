@@ -14,7 +14,7 @@ async function update_tables() {
 		element.replaceChildren();
 		for (const subkey in object[key]) {
 			const heading = document.createElement("h3");
-			heading.textContent = object[key];
+			heading.textContent = subkey;
 			const paragraph = document.createElement("p");
 			paragraph.textContent = object[key][subkey];
 			element.appendChild(heading);
