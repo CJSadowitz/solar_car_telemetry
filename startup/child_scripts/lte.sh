@@ -1,11 +1,11 @@
-echo "LTE Script"
-echo "Setting up LTE hat"
+echo "LTE.sh::starting"
 while true; do
-	OUTPUT=$(atcom AT#ECM=1,0)
+	OUTPUT=$(/usr/local/bin/atcom AT#ECM=1,0)
 	if [[ "$OUTPUT" == *"OK"* ]]; then
-		echo "Successfully connected to LTE"
+		echo "LTE.sh::successfully connected to lte"
 		break
 	fi
-	echo "Failed to init lte hat; $OUTPUT"
+	echo "LTE.sh::failed to init lte hat; $OUTPUT"
 	sleep 5
 done
+echo "LTE.sh::success"
