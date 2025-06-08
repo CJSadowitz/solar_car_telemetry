@@ -16,6 +16,11 @@ def get_recent_entries():
 			converted_data = can_translater.convert_data(table_name, data[0])
 			recent_data[table_name] = converted_data
 
+	cursor.execute(f"SELECT * FROM gps ORDER BY timestamp DESC LIMIT 1")
+	data = cursor.fetchone()
+		if data != None
+			recent_data["gps"] = data
+
 	conn.close()
 
 	return recent_data
