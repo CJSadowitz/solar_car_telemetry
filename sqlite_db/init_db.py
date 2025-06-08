@@ -40,6 +40,16 @@ def init_tables(tables, can_ids):
 			FOREIGN KEY (can_id) REFERENCES can_devices(can_id)
 		);
 		""")
+
+	cursor.execute(f"""
+	CREATE TABLE IF NOT EXISTS gps (
+		timestamp DATETIME PRIMARY KEY DEFAULT CURRENT_TIMESTAMP,
+		latitude TEXT NOT NULL,
+		longitude TEXT NOT NULL,
+		altitude TEXT NOT NULL
+		);
+	""")
+
 	conn.commit()
 	conn.close()
 
