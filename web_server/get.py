@@ -18,8 +18,8 @@ def get_recent_entries():
 
 	cursor.execute(f"SELECT * FROM gps ORDER BY timestamp DESC LIMIT 1")
 	data = cursor.fetchone()
-		if data != None
-			recent_data["gps"] = data
+	if data != None:
+		recent_data["gps"] = data
 
 	conn.close()
 
