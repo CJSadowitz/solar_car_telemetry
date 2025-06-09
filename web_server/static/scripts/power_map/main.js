@@ -5,7 +5,7 @@ import { get_recent_power } from "./get_power_data.js";
 async function main(points) {
     var shader_program = await get_shader_program();
     var buffer = create_buffer(shader_program);
-    
+    console.log("Entered main");
     requestAnimationFrame(() => main_loop(buffer, points));
 }
 
@@ -24,9 +24,9 @@ function render(buffer, size) {
 function update_buffer_data(buffer, points) {
     // GET NEW DATA FROM SERVER HERE
 
-    points = transform_points(points);
-    console.log(points);
-    update_buf(buffer, points);
+    transformed_points = transform_points(points);
+    console.log(transform_points);
+    update_buf(buffer, transform_points);
 }
 
 function update_buf(buffer, points) {
@@ -83,7 +83,7 @@ function transform_points(points) {
 
         let second = points[i + 1] / largest_lon;
         if (second < 0) { points[i + 1] = 2 * second + 1; }
-        else { points[i + i] = 2 * second - 1; }
+        else { points[i + 1] = 2 * second - 1; }
     }
 
     return points;
