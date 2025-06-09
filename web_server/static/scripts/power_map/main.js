@@ -25,6 +25,7 @@ function update_buffer_data(buffer, points) {
     // GET NEW DATA FROM SERVER HERE
 
     points = transform_points(points);
+    console.log(points);
     update_buf(buffer, points);
 }
 
