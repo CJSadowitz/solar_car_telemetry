@@ -6,7 +6,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js"></script>
         <script type="module" src="{{ url_for('static', filename='scripts/average_speed/array_prediction.js') }}" defer></script>
         <script type="module" src="{{ url_for('static', filename='scripts/power_map/main.js') }}" defer></script>
-	<script src="{{ url_for('static', filename='scripts/server_scripts/get.js') }}"></script>
+	    <script type="module" src="{{ url_for('static', filename='scripts/server_scripts/get.js') }}"></script>
+        <script type="module" src="{{ url_for('static', fillename='scripts/power_map/get_power_data.js') }}"></script>
     </head>
     <body>
         <ul>
@@ -50,7 +51,7 @@
                 let points = await get_power_map();
                 main(points);
             });
-	    get_dash();
+	    // get_dash();
         </script>
     </footer>
 </html>
