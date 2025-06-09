@@ -8,6 +8,7 @@ async function main(points) {
     
     let max = get_max(0, 0, points);
     let transformed_points = transform_points(max, points);
+    console.log(transformed_points);
 
     requestAnimationFrame(() => main_loop(buffer, transformed_points));
 }
