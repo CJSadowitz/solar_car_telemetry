@@ -13,7 +13,6 @@ export async function get_power_map() {
 		positions.push(1);
 		positions.push(1);
 	}
-	console.log(positions);
 	return positions;
 }
 

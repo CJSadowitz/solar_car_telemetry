@@ -5,14 +5,14 @@ import { get_recent_power } from "./get_power_data.js";
 async function main(points) {
     var shader_program = await get_shader_program();
     var buffer = create_buffer(shader_program);
-
+    console.log("Entered main function");
     requestAnimationFrame(() => main_loop(buffer, points));
 }
 
 function main_loop(buffer, points) {
     update_buffer_data(buffer, points);
     render(buffer, points.length);
-
+    console.log("main_loop");
     requestAnimationFrame(() => main_loop(buffer, points));
 }
 
