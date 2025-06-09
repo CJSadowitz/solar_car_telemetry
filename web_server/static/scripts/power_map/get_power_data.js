@@ -1,4 +1,4 @@
-import { get_all_gps, get_recent_gps } from "../server_scripts/get.js";
+import { get_all_gps } from "../server_scripts/get.js";
 
 export async function get_power_map() {
 	var message = await get_all_gps();
@@ -17,14 +17,14 @@ export async function get_power_map() {
 	return positions;
 }
 
-export async function get_recent_power(positions) {
-	var message = await get_recent_gps();
-	var lists = message["message"]["gps_recent"];
-	for (let list in lists) {
-		positions.push(list[1]);
-		positions.push(list[2]);
-	}
-	return positions;
-}
+// export async function get_recent_power(positions) {
+// 	var message = await get_recent_gps();
+// 	var lists = message["message"]["gps_recent"];
+// 	for (let list in lists) {
+// 		positions.push(list[1]);
+// 		positions.push(list[2]);
+// 	}
+// 	return positions;
+// }
 
 window.get_power_map = get_power_map;
