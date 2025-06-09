@@ -24,7 +24,7 @@ function render(buffer, size) {
 function update_buffer_data(buffer, points) {
     // GET NEW DATA FROM SERVER HERE
 
-    transformed_points = transform_points(points);
+    let transformed_points = transform_points(points);
     console.log(transform_points);
     update_buf(buffer, transform_points);
 }
