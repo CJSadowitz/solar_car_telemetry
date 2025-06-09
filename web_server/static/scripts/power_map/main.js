@@ -91,7 +91,7 @@ function get_max(largest_lat, largest_lon, points) {
         largest_lat = Math.max(largest_lat, Math.abs(points[i + 0]));
         largest_lon = Math.max(largest_lon, Math.abs(points[i + 1]));
     }
-    max = {
+    var max = {
         largest_lat: largest_lat,
         largest_lon: largest_lon
     };
