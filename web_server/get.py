@@ -41,5 +41,30 @@ def get_dash_data():
 
 	return dash_data
 
+def get_all_gps():
+	conn = sqlite3.connect("../database.db")
+	cursor = conn.cursor()
+	cursor.execute("SELECT * FROM gps")
+
+	data = {}
+	data["gps"] = cursor.fetchall()
+
+	conn.close()
+
+	return data
+
+def get_recent_gps():
+	conn = sqlite3.connect("../database.db")
+	cursor = conn.cursor()
+
+	cursor.execute("SELECT * FROM gps ORDER BY timestamp DESC LIMIT 5")
+
+	data = {}
+	data["gps_recent"] = cursor.fetchall()
+
+	conn.close()
+
+	return data
+
 if __name__ == "__main__":
 	get_recent_entries()
