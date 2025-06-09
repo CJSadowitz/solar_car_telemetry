@@ -89,10 +89,10 @@ function min_max_rescale(min, max, points) {
 
     for (let i = 0; i < points.length; i += 5) {
         let norm_lat = (points[i + 0] - min_lat) / (max_lat - min_lat);
-        let norm_lon = (points[i + 1] - min_lon) / (max_lon - min_lon);
+        let norm_lon = (points[i + 1] - min_lon) / (max_lat - min_lat);
 
-        points[i + 0] = (Math.tanh(norm_lat / 0.3 - 6) / 2 + 0.5 * 2 - 1);
-        points[i + 1] = (Math.tanh(norm_lon / 0.3 - 6) / 2 + 0.5 * 2 - 1);
+        points[i + 0] = (Math.tanh(norm_lat * 3) * 0.8);
+        points[i + 1] = (Math.tanh(norm_lon * 3) * 0.8);
     }
 
     return points;
