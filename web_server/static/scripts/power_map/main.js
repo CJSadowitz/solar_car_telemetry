@@ -10,7 +10,10 @@ async function main(points) {
     let min = get_min( 1000,  1000, points);
     // let transformed_points = transform_points(max, points);
     let transformed_points = min_max_rescale(min, max, points);
-    console.log(transformed_points);
+    for (let i = 0; i < transformed_points.length; i += 5) {
+        console.log(transformed_points[i + 0]);
+        console.log(transformed_points[i + 1]);
+    }
 
     requestAnimationFrame(() => main_loop(buffer, transformed_points));
 }
@@ -70,25 +73,6 @@ function add_col_to_buffer(buffer, program) {
     gl.vertexAttribPointer(color_attribute_location, size, type, normalize, stride, offset);
     gl.enableVertexAttribArray(color_attribute_location);
     return buffer;
-}
-
-function transform_points(max, points) {
-    var largest_lat = max.largest_lat;
-    var largest_lon = max.largest_lon;
-
-    for (let i = 0; i < points.length; i+=5) {
-        let first = points[i + 0] / largest_lat;
-        if (first < 0) { points[i + 0] = 2 * first + 1; }
-        else { points[i + 0] = 2 * first - 1; }
-
-        let second = points[i + 1] / largest_lon;
-        if (second < 0) { points[i + 1] = 2 * second + 1; }
-        else { points[i + 1] = 2 * second - 1; }
-    }
-
-    points = rescale_points(points, 1.5);
-
-    return points;
 }
 
 function min_max_rescale(min, max, points) {
