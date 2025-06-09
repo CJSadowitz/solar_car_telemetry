@@ -5,8 +5,11 @@ import { get_recent_power } from "./get_power_data.js";
 async function main(points) {
     var shader_program = await get_shader_program();
     var buffer = create_buffer(shader_program);
-    console.log("Entered main");
-    requestAnimationFrame(() => main_loop(buffer, points));
+    
+    let max = get_max(0, 0, points);
+    let transformed_points = transform_points(max, points);
+
+    requestAnimationFrame(() => main_loop(buffer, transformed_points));
 }
 
 function main_loop(buffer, points) {
@@ -23,10 +26,8 @@ function render(buffer, size) {
 
 function update_buffer_data(buffer, points) {
     // GET NEW DATA FROM SERVER HERE
-
-    let transformed_points = transform_points(points);
-    console.log(transformed_points);
-    update_buf(buffer, transformed_points);
+    // Update new added points with the normalize function and append to data
+    update_buf(buffer, points);
 }
 
 function update_buf(buffer, points) {
@@ -68,13 +69,9 @@ function add_col_to_buffer(buffer, program) {
     return buffer;
 }
 
-function transform_points(points) {
-    var largest_lat = 0;
-    var largest_lon = 0;
-    for (let i = 0; i < points.length; i+=5) {
-        largest_lat = Math.max(largest_lat, Math.abs(points[i + 0]));
-        largest_lon = Math.max(largest_lon, Math.abs(points[i + 1]));
-    }
+function transform_points(max, points) {
+    var largest_lat = max.largest_lat;
+    var largest_lon = max.largest_lon;
 
     for (let i = 0; i < points.length; i+=5) {
         let first = points[i + 0] / largest_lat;
@@ -87,6 +84,18 @@ function transform_points(points) {
     }
 
     return points;
+}
+
+function get_max(largest_lat, largest_lon, points) {
+    for (let i = 0; i < points.length; i+=5) {
+        largest_lat = Math.max(largest_lat, Math.abs(points[i + 0]));
+        largest_lon = Math.max(largest_lon, Math.abs(points[i + 1]));
+    }
+    max = {
+        largest_lat: largest_lat,
+        largest_lon: largest_lon
+    };
+    return max;
 }
 
 window.main = main;
