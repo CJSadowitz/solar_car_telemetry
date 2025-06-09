@@ -1,5 +1,5 @@
 import { get_shader_program } from "./shader.js";
-import { get_power_map, get_recent_power } from "./get_power_data.js";
+import { get_recent_power } from "./get_power_data.js";
 
 
 async function main(points) {
