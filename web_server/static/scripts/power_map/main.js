@@ -76,8 +76,13 @@ function transform_points(points) {
     }
 
     for (let i = 0; i < points.length; i+=5) {
-        points[i + 0] = points[i + 0] / largest_lat;
-        points[i + 1] = points[i + 1] / largest_lon;
+        let first = points[i + 0] / largest_lat;
+        if (first < 0) { points[i + 0] = 2 * first + 1; }
+        else { points[i + 0] = 2 * first - 1; }
+
+        let second = points[i + 1] / largest_lon;
+        if (second < 0) { points[i + 1] = 2 * second + 1; }
+        else { points[i + 0] = 2 * second - 1; }
     }
 
     return points;
