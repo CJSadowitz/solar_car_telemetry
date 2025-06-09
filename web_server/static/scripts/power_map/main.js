@@ -23,6 +23,8 @@ function render(buffer, size) {
 
 function update_buffer_data(buffer, points) {
     // GET NEW DATA FROM SERVER HERE
+
+    points = transform_points(points);
     update_buf(buffer, points);
 }
 
@@ -63,6 +65,22 @@ function add_col_to_buffer(buffer, program) {
     gl.vertexAttribPointer(color_attribute_location, size, type, normalize, stride, offset);
     gl.enableVertexAttribArray(color_attribute_location);
     return buffer;
+}
+
+function transform_points(points) {
+    var largest_lat = 0;
+    var largest_lon = 0;
+    for (let i = 0; i < points.length; i+=5) {
+        largest_lat = Math.max(largest_lat, Math.abs(points[0]));
+        largest_lon = Math.max(largest_lon, Math.abs(points[1]));
+    }
+
+    for (let i = 0; i < points.length; i+=5) {
+        points[i + 0] = points[i + 0] / largest_lat;
+        points[i + 1] = points[i + 1] / largest_lon;
+    }
+
+    return points;
 }
 
 window.main = main;
