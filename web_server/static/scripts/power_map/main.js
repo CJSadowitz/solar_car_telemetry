@@ -9,7 +9,7 @@ async function main(points) {
     let max = get_max(-1000, -1000, points);
     let min = get_min( 1000,  1000, points);
     // let transformed_points = transform_points(max, points);
-    let transformed_points = min_max_rescale(min, max, points);
+    let transformed_points = min_max_rescale(min, max, points, 5);
     for (let i = 0; i < transformed_points.length; i += 5) {
         console.log(transformed_points[i + 0]);
         console.log(transformed_points[i + 1]);
@@ -75,7 +75,7 @@ function add_col_to_buffer(buffer, program) {
     return buffer;
 }
 
-function min_max_rescale(min, max, points) {
+function min_max_rescale(min, max, points, scale) {
     let min_lat = min.lat, max_lat = max.lat;
     let min_lon = min.lon, max_lon = max.lon;
 
@@ -91,8 +91,8 @@ function min_max_rescale(min, max, points) {
         let norm_lat = (points[i + 0] - min_lat) / (max_lat - min_lat);
         let norm_lon = (points[i + 1] - min_lon) / (max_lon - min_lon);
 
-        points[i + 0] = Math.sign(norm_lat) * Math.sqrt(Math.abs(norm_lat));
-        points[i + 1] = Math.sign(norm_lon) * Math.sqrt(Math.abs(norm_lon));
+        points[i + 0] = (norm_lat * 2 - 1) * scale;
+        points[i + 1] = (norm_lon * 2 - 1) * scale;
     }
 
     return points;
