@@ -84,6 +84,16 @@ function transform_points(max, points) {
         else { points[i + 1] = 2 * second - 1; }
     }
 
+    points = rescale_points(points, 1.5);
+
+    return points;
+}
+
+function rescale_points(points, scale) {
+    for (let i = 0; i < points.length; i += 5) {
+        points[i + 0] = Math.tanh(scale * points[i + 0]);
+        points[i + 1] = Math.tanh(scale * points[i + 1]);
+    }
     return points;
 }
 
