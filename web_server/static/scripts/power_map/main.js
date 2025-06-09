@@ -104,8 +104,11 @@ function min_max_rescale(min, max, points) {
     }
 
     for (let i = 0; i < points.length; i += 5) {
-        points[i + 0] = 2 * ((points[i + 0] - min_lat) / (max_lat - min_lat)) - 1;
-        points[i + 1] = 2 * ((points[i + 1] - min_lon) / (max_lon - min_lon)) - 1;
+        let norm_lat = (points[i + 0] - min_lat) / (max_lat - min_lat);
+        let norm_lon = (points[i + 1] - min_lon) / (max_lon - min_lon);
+
+        points[i + 0] = Math.sign(norm_lat) * Math.sqrt(Math.abs(norm_lat));
+        points[i + 1] = Math.sign(norm_lon) * Math.sqrt(Math.abs(norm_lon));
     }
 
     return points;
