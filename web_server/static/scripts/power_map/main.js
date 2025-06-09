@@ -6,8 +6,10 @@ async function main(points) {
     var shader_program = await get_shader_program();
     var buffer = create_buffer(shader_program);
     
-    let max = get_max(0, 0, points);
-    let transformed_points = transform_points(max, points);
+    let max = get_max(-1000, -1000, points);
+    let min = get_min( 1000,  1000, points);
+    // let transformed_points = transform_points(max, points);
+    let transformed_points = min_max_rescale(min, max, points);
     console.log(transformed_points);
 
     requestAnimationFrame(() => main_loop(buffer, transformed_points));
@@ -89,11 +91,23 @@ function transform_points(max, points) {
     return points;
 }
 
-function rescale_points(points, scale) {
+function min_max_rescale(min, max, points) {
+    let min_lat = min.lat, max_lat = max.lat;
+    let min_lon = min.lon, max_lon = max.lon;
+
     for (let i = 0; i < points.length; i += 5) {
-        points[i + 0] = Math.tanh(scale * points[i + 0]);
-        points[i + 1] = Math.tanh(scale * points[i + 1]);
+        min_lat = Math.min(min_lat, points[i + 0]);
+        max_lat = Math.max(max_lat, points[i + 0]);
+
+        min_lon = Math.min(min_lon, points[i + 1]);
+        max_lon = Math.max(max_lon, points[i + 1]);
     }
+
+    for (let i = 0; i < points.length; i += 5) {
+        points[i + 0] = 2 * ((points[i + 0] - min_lat) / (max_lat - min_lat)) - 1;
+        points[i + 1] = 2 * ((points[i + 1] - min_lon) / (max_lon - min_lon)) - 1;
+    }
+
     return points;
 }
 
@@ -103,10 +117,22 @@ function get_max(largest_lat, largest_lon, points) {
         largest_lon = Math.max(largest_lon, Math.abs(points[i + 1]));
     }
     var max = {
-        largest_lat: largest_lat,
-        largest_lon: largest_lon
+        lat: largest_lat,
+        lon: largest_lon
     };
     return max;
+}
+
+function get_min(smallest_lat, smallest_lon, points) {
+    for (let i = 0; i < points.length; i+=5) {
+        smallest_lat = Math.max(smallest_lat, Math.abs(points[i + 0]));
+        smallest_lon = Math.max(smallest_lon, Math.abs(points[i + 1]));
+    }
+    var min = {
+        lat: smallest_lat,
+        lon: smallest_lon
+    };
+    return min;
 }
 
 window.main = main;
