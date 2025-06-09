@@ -5,14 +5,14 @@ import { get_recent_power } from "./get_power_data.js";
 async function main(points) {
     var shader_program = await get_shader_program();
     var buffer = create_buffer(shader_program);
-    console.log("Entered main function");
+    
     requestAnimationFrame(() => main_loop(buffer, points));
 }
 
 function main_loop(buffer, points) {
     update_buffer_data(buffer, points);
     render(buffer, points.length);
-    console.log("main_loop");
+    
     requestAnimationFrame(() => main_loop(buffer, points));
 }
 
@@ -72,8 +72,8 @@ function transform_points(points) {
     var largest_lat = 0;
     var largest_lon = 0;
     for (let i = 0; i < points.length; i+=5) {
-        largest_lat = Math.max(largest_lat, Math.abs(points[0]));
-        largest_lon = Math.max(largest_lon, Math.abs(points[1]));
+        largest_lat = Math.max(largest_lat, Math.abs(points[i + 0]));
+        largest_lon = Math.max(largest_lon, Math.abs(points[i + 1]));
     }
 
     for (let i = 0; i < points.length; i+=5) {
@@ -83,7 +83,7 @@ function transform_points(points) {
 
         let second = points[i + 1] / largest_lon;
         if (second < 0) { points[i + 1] = 2 * second + 1; }
-        else { points[i + 0] = 2 * second - 1; }
+        else { points[i + i] = 2 * second - 1; }
     }
 
     return points;
