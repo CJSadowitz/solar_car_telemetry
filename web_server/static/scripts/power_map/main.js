@@ -9,7 +9,7 @@ async function main(points) {
     let max = get_max(-1000, -1000, points);
     let min = get_min( 1000,  1000, points);
     // let transformed_points = transform_points(max, points);
-    let transformed_points = min_max_rescale(min, max, points, 5);
+    let transformed_points = min_max_rescale(min, max, points);
     for (let i = 0; i < transformed_points.length; i += 5) {
         console.log(transformed_points[i + 0]);
         console.log(transformed_points[i + 1]);
@@ -75,7 +75,7 @@ function add_col_to_buffer(buffer, program) {
     return buffer;
 }
 
-function min_max_rescale(min, max, points, scale) {
+function min_max_rescale(min, max, points) {
     let min_lat = min.lat, max_lat = max.lat;
     let min_lon = min.lon, max_lon = max.lon;
 
@@ -91,15 +91,15 @@ function min_max_rescale(min, max, points, scale) {
         let norm_lat = (points[i + 0] - min_lat) / (max_lat - min_lat);
         let norm_lon = (points[i + 1] - min_lon) / (max_lon - min_lon);
 
-        points[i + 0] = (norm_lat * 2 - 1) * scale;
-        points[i + 1] = (norm_lon * 2 - 1) * scale;
+        points[i + 0] = (Math.tanh(norm_lat / 0.3 - 6) + 1 * 2 - 1);
+        points[i + 1] = (Math.tanh(norm_lon / 0.3 - 6) + 1 * 2 - 1);
     }
 
     return points;
 }
 
 function get_max(largest_lat, largest_lon, points) {
-    for (let i = 0; i < points.length; i+=5) {
+    for (let i = 0; i < points.length; i += 5) {
         largest_lat = Math.max(largest_lat, Math.abs(points[i + 0]));
         largest_lon = Math.max(largest_lon, Math.abs(points[i + 1]));
     }
@@ -111,7 +111,7 @@ function get_max(largest_lat, largest_lon, points) {
 }
 
 function get_min(smallest_lat, smallest_lon, points) {
-    for (let i = 0; i < points.length; i+=5) {
+    for (let i = 0; i < points.length; i += 5) {
         smallest_lat = Math.max(smallest_lat, Math.abs(points[i + 0]));
         smallest_lon = Math.max(smallest_lon, Math.abs(points[i + 1]));
     }
