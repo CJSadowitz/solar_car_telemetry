@@ -33,12 +33,12 @@ def save_data(data_list):
 			cursor.execute(query, (timestamp, can_id, raw))
 			conn.commit()
 		else:
-			print (f"WRITE_DB::save_data::{can_id} not found in can_tables")
+			print (f"CAN::WRITE_DB::save_data::{can_id} not found in can_tables")
 
 	except sqlite3.Error as e:
-		print ("WRITE_DB::save_data::sqlite3 error:", e)
+		print ("CAN::WRITE_DB::save_data::sqlite3_error:", e)
 	except Exception as e:
-		print ("WRITE_DB::save_data::unknown exception:", e)
+		print ("CAN::WRITE_DB::save_data::exception:", e)
 
 	finally:
 		conn.close()

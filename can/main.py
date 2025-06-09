@@ -12,7 +12,7 @@ def main():
 			data = write_db.clean_message(message)
 			write_db.save_data(data)
 	except Exception as e:
-		print ("MAIN::unknown exception:", e)
+		print ("CAN::MAIN::exception:", e)
 
 if __name__ == "__main__":
 	main()
