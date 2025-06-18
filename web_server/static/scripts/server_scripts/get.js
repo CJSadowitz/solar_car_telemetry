@@ -22,7 +22,7 @@ export async function get_recent_gps() {
 	return data;
 }
 
-export async function update_tables() {
+async function update_tables() {
 	let data = await get_recent();
 	let object = data["message"];
 
@@ -39,3 +39,5 @@ export async function update_tables() {
 		}
 	}
 }
+
+window.update_tables = update_tables;
