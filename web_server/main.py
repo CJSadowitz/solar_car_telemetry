@@ -13,21 +13,10 @@ def home():
 def recent_data():
 	return render_template("recent_data.html")
 
-@app.route("/get_dash_data", methods=["GET"])
-def get_dash_data():
-	return {"message": get.get_dash_data()}
+@app.route("/get_data", methods=["GET"])
+def get_data():
+	return { "body": get.get_data() }
 
-@app.route("/get_recent", methods=["GET"])
-def get_db():
-	return {"message": get.get_recent_entries()}
-
-@app.route("/get_all_gps", methods=["GET"])
-def get_all_gps():
-	return {"message": get.get_all_gps()}
-
-@app.route("/get_recent_gps", methods=["GET"])
-def get_recent_gps():
-	return {"message": get.get_recent_gps()}
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=8008)

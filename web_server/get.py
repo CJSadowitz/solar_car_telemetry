@@ -1,70 +1,39 @@
 import sqlite3
 import can_translater
+from datetime import datetime
 
-def get_recent_entries():
+def get_data():
+	all_data = {}
 	conn = sqlite3.connect("../database.db")
 	cursor = conn.cursor()
 
-	cursor.execute("SELECT table_name FROM can_devices")
-	tables = cursor.fetchall()
+	amount_of_data = 1
+	battery = ["battery_pack_info", "pack_balance_state_of_charge", "precharge_status"]
+	cmus = ["cmu_301", "cmu_302", "cmu_303", "cmu_304", "cmu_305", "cmu_306", "cmu_307", "cmu_308", "cmu_309", "cmu_30A", "cmu_30B", "cmu_30C"]
+	mppt = ["mppt1_input", "mppt1_output", "mppt1_status", "mppt2_input", "mppt2_output", "mppt2_status"]
+	tables = battery + cmus + mppt
 
-	recent_data = {}
-	for (table_name, ) in tables:
-		cursor.execute(f"SELECT raw FROM {table_name} ORDER BY timestamp DESC LIMIT 1")
-		data = cursor.fetchone()
-		if data != None:
-			converted_data = can_translater.convert_data(table_name, data[0])
-			recent_data[table_name] = converted_data
-
-	cursor.execute(f"SELECT * FROM gps ORDER BY timestamp DESC LIMIT 1")
-	data = cursor.fetchone()
-	if data != None:
-		recent_data["gps"] = data
+	for table in tables:
+		data = get_can_table_data(cursor, table, amount_of_data)
+		all_data[table] = data
 
 	conn.close()
 
-	return recent_data
+	return all_data
 
-def get_dash_data():
-	conn = sqlite3.connect("../database.db")
-	cursor = conn.cursor()
+def get_can_table_data(cursor, table_name, amount):
+	data = []
+	cursor.execute(f"SELECT timestamp, raw FROM {table_name} ORDER BY timestamp DESC LIMIT {amount}")
+	data = list(cursor.fetchall())
+	cleaned_data = []
+	for row in data:
+		list_data = []
+		dt = datetime.utcfromtimestamp(row[0])
+		list_data.append(dt.strftime("%Y-%m-%d %H: %M: %S.%f"))
+		list_data.append(can_translater.convert_data(table_name, row[1]))
+		cleaned_data.append(list_data)
 
-	cursor.execute(f"SELECT raw FROM pack_state_of_charge ORDER BY timestamp DESC LIMIT 1")
-	battery_percent = cursor.fetchone()
-
-	dash_data = {}
-	dash_data["pack_state_of_charge"] = can_translater.convert_data("pack_state_of_charge", battery_percent[0])
-	# Include speed from database
-	# Include time left from somewhere
-
-	conn.close()
-
-	return dash_data
-
-def get_all_gps():
-	conn = sqlite3.connect("../database.db")
-	cursor = conn.cursor()
-	cursor.execute("SELECT * FROM gps")
-
-	data = {}
-	data["gps"] = cursor.fetchall()
-
-	conn.close()
-
-	return data
-
-def get_recent_gps():
-	conn = sqlite3.connect("../database.db")
-	cursor = conn.cursor()
-
-	cursor.execute("SELECT * FROM gps ORDER BY timestamp DESC LIMIT 5")
-
-	data = {}
-	data["gps_recent"] = cursor.fetchall()
-
-	conn.close()
-
-	return data
+	return cleaned_data
 
 if __name__ == "__main__":
-	get_recent_entries()
+	print (get_data())
