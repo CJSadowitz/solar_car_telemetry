@@ -26,7 +26,7 @@ BO_ 1013 Pack_Balance_SoC: 8 ECU_BMU
 
 BO_ 1018 Battery_Pack_Info: 8 ECU_BMU
     SG_ Pack_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_BMU
-    SG_ Pack_Current : 32|32@1+ (0.001,0) [-200|200] "A" ECU_BMU
+    SG_ Pack_Current : 32|32@1- (0.001,0) [-200|200] "A" ECU_BMU
 
 BO_ 1019 Battery_Pack_Status: 8 ECU_BMU
     SG_ Balance_Voltage_Threshold_Rising : 0|16@1+ (1,0) [0|5000] "mV" ECU_BMU
