@@ -18,4 +18,3 @@ def get_can_line(bus):
 	except Exception as e:
 		print ("CAN::CAN_RECEIVER::get_can_line::excpetion:", e)
 		return None
-

@@ -1,7 +1,10 @@
 import can_receiver
 import write_db
+from over_current_protection import check_line, pin_off
 
 def main():
+	pins = [18, 15, 14, 23]
+	pin_off(pins)
 	try:
 		# Test if it crashes out here if can network is not on
 		bus = can_receiver.get_data_bus()
@@ -10,6 +13,7 @@ def main():
 			if message == None:
 				break
 			data = write_db.clean_message(message)
+			check_line(data[1], data[2], pins)
 			write_db.save_data(data)
 	except Exception as e:
 		print ("CAN::MAIN::exception:", e)
