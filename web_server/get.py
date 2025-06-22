@@ -7,7 +7,7 @@ def get_data():
 	conn = sqlite3.connect("../database.db")
 	cursor = conn.cursor()
 
-	battery = ["battery_pack_info", "pack_balance_state_of_charge", "min_max_cell_temp", "min_max_cell_voltage"]
+	battery = ["battery_pack_info", "pack_balance_state_of_charge", "min_max_cell_temp", "min_max_cell_voltage", "pack_state_of_charge"]
 	cmu1 = ["cmu_301", "cmu_302", "cmu_303"]
 	cmu2 = ["cmu_304", "cmu_305", "cmu_306"]
 	cmu3 = ["cmu_307", "cmu_307", "cmu_309"]
@@ -64,5 +64,29 @@ def get_can_table_data(cursor, table_name):
 
 	return cleaned_data
 
+def get_graph_data():
+	tables = ["pack_state_of_charge", "battery_pack_info"]
+	amount = 10
+	conn = sqlite3.connect("../database.db")
+	cursor = conn.cursor()
+	data = {}
+	for table in tables:
+		section = get_graph_data_db(cursor, table, amount)
+		data[table] = section
+
+	cursor.close()
+	return data
+
+def get_graph_data_db(cursor, table_name, amount):
+	cursor.execute(f"SELECT timestamp, raw FROM {table_name} ORDER BY timestamp DESC LIMIT {amount}")
+	data = list(cursor.fetchall())
+	cleaned_data = []
+	for row in data:
+		list_data = []
+		dt = datetime.utcfromtimestamp(row[0])
+		list_data.append(dt.strftime("%Y-%m-%d %H: %M: %S.%f"))
+		list_data.append(can_translater.convert_data(table_name, row[1]))
+		cleaned_data.append(list_data)
+	return cleaned_data
 if __name__ == "__main__":
-	get_data()
+	print (get_graph_data())

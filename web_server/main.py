@@ -17,6 +17,9 @@ def recent_data():
 def get_data():
 	return { "body": get.get_data() }
 
+@app.route("/get_graph_data", methods=["GET"])
+def get_graph_Data():
+	return { "body": get.get_graph_data() }
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=8008)
