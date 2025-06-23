@@ -64,6 +64,26 @@ def get_can_table_data(cursor, table_name):
 
 	return cleaned_data
 
+def get_dash():
+	try:
+		conn = sqlite3.connect("../database.db")
+		cursor = conn.cursor()
+
+		data = {}
+		data["pi_monitor"] = get_pi_dash(cursor, "pi_monitor")
+		data["speed"]      = get_pi_dash(cursor, "speed")
+
+	except Exception as e:
+		print ("WEB_SERVER::get::get_dash:exception:", e)
+
+	finally:
+		conn.close()
+
+def get_pi_dash(cursor, table):
+	cursor.execute(f"SELECT * FROM {table} ORDER BY timestamp DESC LIMIT 1")
+	return cursor.fetchall()
+
+
 def get_graph_data():
 	tables = ["pack_state_of_charge", "battery_pack_info"]
 	amount = 10
