@@ -1,12 +1,12 @@
 import sqlite3
 
-def save_data(delta, temp):
+def save_data(delta, total, temp):
 	try:
 		conn = sqlite3.connect("../database.db")
 		cursor = conn.cursor()
 
-		query = "INSERT INTO pi_monitor (received, transmitted, temperature) VALUES (?, ?, ?)"
-		cursor.execute(query, (delta[0], delta[1], temp))
+		query = "INSERT INTO pi_monitor (received, transmitted, total, temperature) VALUES (?, ?, ?, ?)"
+		cursor.execute(query, (delta[0], delta[1], total, temp))
 		conn.commit()
 
 	except Exception as e:

@@ -62,6 +62,7 @@ def init_tables(tables, can_ids):
 		timestamp DATETIME PRIMARY KEY DEFAULT CURRENT_TIMESTAMP,
 		received TEXT NOT NULL,
 		transmitted TEXT NOT NULL,
+		total TEXT NOT NULL,
 		temperature TEXT NOT NULL
 		);
 	""")
