@@ -1,1 +1,0 @@
-export const max_capacity = 900; // temp

@@ -1,1 +1,0 @@
-export const solar_irradiance = 1361; // W/m^2
