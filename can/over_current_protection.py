@@ -14,7 +14,7 @@ def check_line(id, data, pins):
 
 def check_data(id, can_data):
 	try:
-		dbc = cantools.database.load_file("../can/can_db.dbc")
+		dbc = cantools.database.load_file("../can_db.dbc")
 		can_id = int(id, 16)
 		message = can.Message(arbitration_id=can_id, data=[int(can_data[i:i+2], 16) for i in range(0, len(can_data), 2)])
 		translated_data = dbc.decode_message(message.arbitration_id, message.data)

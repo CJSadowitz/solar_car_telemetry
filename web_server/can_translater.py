@@ -3,7 +3,7 @@ import cantools
 import can
 
 def convert_data(table_name, can_data):
-    dbc = cantools.database.load_file("../web_server/can_db.dbc")
+    dbc = cantools.database.load_file("../can_db.dbc")
     id = int(get_id(table_name), 16)
     message = can.Message(arbitration_id=id, data=[int(can_data[i:i+2], 16) for i in range(0, len(can_data), 2)])
     return dbc.decode_message(message.arbitration_id, message.data)
