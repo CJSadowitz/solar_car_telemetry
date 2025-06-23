@@ -50,6 +50,13 @@ def init_tables(tables, can_ids):
 		);
 	""")
 
+	cursor.execute(f"""
+	CREATE TABLE IF NOT EXISTS vehicle_speed (
+		timestampe DATETIME PROMARY KEY DEFAULT CURRENT_TIMESTAMP,
+		speed TEXT NOT NULL
+		);
+	""")
+
 	conn.commit()
 	conn.close()
 
