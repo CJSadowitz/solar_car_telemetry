@@ -7,8 +7,12 @@ def save_data(line):
 		cursor = conn.cursor()
 		query = "INSERT INTO vehicle_speed (speed) VALUES (?)"
 		cursor.execute(query, (data,))
+		conn.commit()
 	except Exception as e:
 		print ("SPEED::write_db::save_data:exception:", e)
+
+	finally:
+		conn.close()
 
 def clean_data(line):
 	return line
