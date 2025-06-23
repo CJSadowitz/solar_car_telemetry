@@ -7,7 +7,7 @@ def save_data(delta, temp):
 
 		query = "INSERT INTO pi_monitor (received, transmitted, temperature) VALUES (?, ?, ?)"
 		cursor.execute(query, (delta[0], delta[1], temp))
-		print (delta, temp)
+		conn.commit()
 
 	except Exception as e:
 		print ("PI_MONITOR::write_db::save_data::exception:", e)
