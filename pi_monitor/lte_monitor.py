@@ -1,12 +1,17 @@
 def get_interface_stats(interface):
-	with open("/proc/net/dev", "r") as file:
-		for line in file:
-			if interface in line:
-				data = line.split(":")[1].split()
-				received_bytes    = int(data[0])
-				transmitted_bytes = int(data[8])
-				return received_bytes, transmitted_bytes
-	return None, None
+	try:
+		with open("/proc/net/dev", "r") as file:
+			for line in file:
+				if interface in line:
+					data = line.split(":")[1].split()
+					received_bytes    = int(data[0])
+					transmitted_bytes = int(data[8])
+					return received_bytes, transmitted_bytes
+	except Exception as e:
+		print ("PI_MONITOR::lte_monitor::get_interface_stats::exception:", e)
+
+	finally:
+		return None, None
 
 
 def get_delta_stats(old_tuple, new_tuple):
