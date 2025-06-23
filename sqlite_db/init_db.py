@@ -52,8 +52,17 @@ def init_tables(tables, can_ids):
 
 	cursor.execute(f"""
 	CREATE TABLE IF NOT EXISTS vehicle_speed (
-		timestampe DATETIME PROMARY KEY DEFAULT CURRENT_TIMESTAMP,
+		timestamp DATETIME PRIMARY KEY DEFAULT CURRENT_TIMESTAMP,
 		speed TEXT NOT NULL
+		);
+	""")
+
+	cursor.execute(f"""
+	CREATE TABLE IF NOT EXISTS pi_monitor (
+		timestamp DATETIME PRIMARY KEY DEFAULT CURRENT_TIMESTAMP,
+		received TEXT NOT NULL,
+		transmitted TEXT NOT NULL,
+		temperature TEXT NOT NULL
 		);
 	""")
 
