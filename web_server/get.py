@@ -71,13 +71,14 @@ def get_dash():
 
 		data = {}
 		data["pi_monitor"] = get_pi_dash(cursor, "pi_monitor")
-		data["speed"]      = get_pi_dash(cursor, "speed")
+		# data["speed"]      = get_pi_dash(cursor, "vehicle_speed")
 
 	except Exception as e:
 		print ("WEB_SERVER::get::get_dash:exception:", e)
 
 	finally:
 		conn.close()
+		return data
 
 def get_pi_dash(cursor, table):
 	cursor.execute(f"SELECT * FROM {table} ORDER BY timestamp DESC LIMIT 1")
@@ -109,4 +110,4 @@ def get_graph_data_db(cursor, table_name, amount):
 		cleaned_data.append(list_data)
 	return cleaned_data
 if __name__ == "__main__":
-	print (get_graph_data())
+	print (get_dash())
