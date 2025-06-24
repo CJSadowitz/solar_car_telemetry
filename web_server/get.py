@@ -109,5 +109,6 @@ def get_graph_data_db(cursor, table_name, amount):
 		list_data.append(can_translater.convert_data(table_name, row[1]))
 		cleaned_data.append(list_data)
 	return cleaned_data
+
 if __name__ == "__main__":
 	print (get_dash())

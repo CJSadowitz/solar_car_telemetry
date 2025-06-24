@@ -19,10 +19,14 @@ BO_ 768 BMU_Heartbeat_Sensor: 8 ECU_BMU
 BO_ 1012 Pack_SoC: 8 ECU_BMU
     SG_ Pack_SoC : 0|32@1- (1,0) [-1000|1000] "Ah" ECU_BMU
     SG_ Pack_SoC_Percentage : 32|32@1+ (100,0) [0|100] "%" ECU_BMU
+SIG_VALTYPE_ 1012 Pack_SoC : 1;
+SIG_VALTYPE_ 1012 Pack_SoC_Percentage : 1;
 
 BO_ 1013 Pack_Balance_SoC: 8 ECU_BMU
     SG_ Pack_Balance_SoC : 0|32@1+ (1,0) [0|1000] "Ah" ECU_BMU
     SG_ Pack_Balance_SoC_Percentage : 32|32@1+ (100,0) [0|100] "%" ECU_BMU
+SIG_VALTYPE_ 1013 Pack_Balance_SoC : 1;
+SIG_VALTYPE_ 1013 Pack_Balance_SoC_Percentage : 1;
 
 BO_ 1018 Battery_Pack_Info: 8 ECU_BMU
     SG_ Pack_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_BMU

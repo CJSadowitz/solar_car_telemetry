@@ -1,7 +1,9 @@
 from flask import Flask
+from flask_cors import CORS
 import get
 
 app = Flask(__name__, static_folder="static")
+CORS(app)
 
 @app.route("/get_data", methods=["GET"])
 def get_data():
