@@ -110,5 +110,17 @@ def get_graph_data_db(cursor, table_name, amount):
 		cleaned_data.append(list_data)
 	return cleaned_data
 
+def get_gui():
+	conn = sqlite3.connect("../database.db")
+	cursor = conn.cursor()
+	tables = ["vehicle_speed", "pack_state_of_charge", "battery_pack_info", "mppt1_input", "mppt1_output", "mppt2_input", "mppt2_output"]
+	data = []
+	for table in tables:
+		data += get_pi_dash(cursor, table)
+
+	conn.close()
+
+	return data
+
 if __name__ == "__main__":
-	print (get_dash())
+	print (get_gui())
