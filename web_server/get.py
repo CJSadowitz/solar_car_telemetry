@@ -59,7 +59,10 @@ def get_can_table_data(cursor, table_name):
 		list_data = []
 		dt = datetime.utcfromtimestamp(row[0])
 		list_data.append(dt.strftime("%Y-%m-%d %H: %M: %S.%f"))
-		list_data.append(can_translater.convert_data(table_name, row[1]))
+		can_dict = can_translater.convert_data(table_name, row[1])
+		if (table_name == "battery_pack_info"):
+			can_dict["Pack_Power"] = can_dict["Pack_Current"] * can_dict["Pack_Voltage"]
+		list_data.append(can_dict)
 		cleaned_data.append(list_data)
 
 	return cleaned_data
@@ -93,7 +96,9 @@ def get_graph_data():
 	data = {}
 	for table in tables:
 		section = get_graph_data_db(cursor, table, amount)
-		data[table] = section
+		v_1, v_2, k_1, k_2 = sort_graph_sections(section)
+		data[k_1] = v_1
+		data[k_2] = v_2
 
 	cursor.close()
 	return data
@@ -101,14 +106,28 @@ def get_graph_data():
 def get_graph_data_db(cursor, table_name, amount):
 	cursor.execute(f"SELECT timestamp, raw FROM {table_name} ORDER BY timestamp DESC LIMIT {amount}")
 	data = list(cursor.fetchall())
-	cleaned_data = []
+	list_data = []
 	for row in data:
-		list_data = []
-		dt = datetime.utcfromtimestamp(row[0])
-		list_data.append(dt.strftime("%Y-%m-%d %H: %M: %S.%f"))
 		list_data.append(can_translater.convert_data(table_name, row[1]))
-		cleaned_data.append(list_data)
-	return cleaned_data
+
+	return list_data
+
+def sort_graph_sections(list_dicts):
+	section_1 = []
+	section_2 = []
+	item_1 = None
+	item_2 = None
+	for item in list_dicts:
+		i = 0
+		for key in item:
+			if i == 0:
+				section_1.append(item[key])
+				item_1 = key
+			elif i == 1:
+				section_2.append(item[key])
+				item_2 = key
+			i += 1
+	return section_1, section_2, item_1, item_2
 
 def get_gui():
 	conn = sqlite3.connect("../database.db")
@@ -123,4 +142,4 @@ def get_gui():
 	return data
 
 if __name__ == "__main__":
-	print (get_gui())
+	print (get_data())
