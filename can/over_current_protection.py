@@ -18,7 +18,6 @@ def check_data(id, can_data):
 		can_id = int(id, 16)
 		message = can.Message(arbitration_id=can_id, data=[int(can_data[i:i+2], 16) for i in range(0, len(can_data), 2)])
 		translated_data = dbc.decode_message(message.arbitration_id, message.data)
-		print (translated_data)
 		if (abs(translated_data["Pack_Current"]) >= 55):
 			return True
 		return False
