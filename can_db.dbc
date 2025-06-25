@@ -159,16 +159,22 @@ BO_ 780 CMU_Cell_Voltages4_4_7: 8 ECU_CMU
 // MPPT 1 Blocks
 //
 BO_ 1536 MPPT_1_Input: 8 ECU_MPPT
-    SG_ MPPT_Input_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
-    SG_ MPPT_Input_Current : 32|32@1+ (0.001,0) [0|100] "A" ECU_MPPT
+    SG_ MPPT_Input_Voltage : 0|32@1+ (1, 0) [0|500] "V" ECU_MPPT
+    SG_ MPPT_Input_Current : 32|32@1+ (1,0) [0|100] "A" ECU_MPPT
+SIG_VALTYPE_ 1536 MPPT_Input_Voltage : 1;
+SIG_VALTYPE_ 1536 MPPT_Input_Current : 1;
 
 BO_ 1537 MPPT_1_Output: 8 ECU_MPPT
-    SG_ MPPT_Output_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
-    SG_ MPPT_Output_Current : 32|32@1+ (0.001,0) [0|100] "A" ECU_MPPT
+    SG_ MPPT_Output_Voltage : 0|32@1+ (1,0) [0|500] "V" ECU_MPPT
+    SG_ MPPT_Output_Current : 32|32@1+ (1,0) [0|100] "A" ECU_MPPT
+SIG_VALTYPE_ 1537 MPPT_Output_Voltage : 1;
+SIG_VALTYPE_ 1537 MPPT_Output_Current : 1;
 
 BO_ 1538 MPPT_1_Temperature: 8 ECU_MPPT
-    SG_ MOSFET_Temp : 0|32@1+ (0.1,0) [-40|125] "°C" ECU_MPPT
-    SG_ Controller_Temp : 32|32@1+ (0.1,0) [-40|125] "°C" ECU_MPPT
+    SG_ MOSFET_Temp : 0|32@1+ (1, 0) [-40|125] "°C" ECU_MPPT
+    SG_ Controller_Temp : 32|32@1+ (1, 0) [-40|125] "°C" ECU_MPPT
+SIG_VALTYPE_ 1538 MOSFET_Temp : 1;
+SIG_VALTYPE_ 1538 Controller_Temp : 1;
 
 BO_ 1539 MPPT_1_Aux_Power_Supply: 8 ECU_MPPT
     SG_ Voltage_12V : 0|32@1+ (0.001,0) [0|15] "V" ECU_MPPT
@@ -204,16 +210,22 @@ BO_ 1547 MPPT_1_Max_Input_Current_Send: 8 ECU_MPPT
 // MPPT 2 Blocks
 //
 BO_ 1552 MPPT_2_Input: 8 ECU_MPPT
-    SG_ MPPT_Input_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
-    SG_ MPPT_Input_Current : 32|32@1+ (0.001,0) [0|100] "A" ECU_MPPT
+    SG_ MPPT_Input_Voltage : 0|32@1+ (1,0) [0|500] "V" ECU_MPPT
+    SG_ MPPT_Input_Current : 32|32@1+ (1,0) [0|100] "A" ECU_MPPT
+SIG_VALTYPE_ 1552 MPPT_Input_Voltage : 1;
+SIG_VALTYPE_ 1552 MPPT_Input_Current : 1;
 
 BO_ 1553 MPPT_2_Output: 8 ECU_MPPT
-    SG_ MPPT_Output_Voltage : 0|32@1+ (0.001,0) [0|500] "V" ECU_MPPT
-    SG_ MPPT_Output_Current : 32|32@1+ (0.001,0) [0|100] "A" ECU_MPPT
+    SG_ MPPT_Output_Voltage : 0|32@1+ (1,0) [0|500] "V" ECU_MPPT
+    SG_ MPPT_Output_Current : 32|32@1+ (1,0) [0|100] "A" ECU_MPPT
+SIG_VALTYPE_ 1553 MPPT_Output_Voltage : 1;
+SIG_VALTYPE_ 1553 MPPT_Output_Current : 1;
 
 BO_ 1554 MPPT_2_Temperature: 8 ECU_MPPT
-    SG_ MOSFET_Temp : 0|32@1+ (0.1,0) [-40|125] "°C" ECU_MPPT
-    SG_ Controller_Temp : 32|32@1+ (0.1,0) [-40|125] "°C" ECU_MPPT
+    SG_ MOSFET_Temp : 0|32@1+ (1,0) [-40|125] "°C" ECU_MPPT
+    SG_ Controller_Temp : 32|32@1+ (1,0) [-40|125] "°C" ECU_MPPT
+SIG_VALTYPE_ 1554 MOSFET_Temp : 1;
+SIG_VALTYPE_ 1554 Controller_Temp : 1;
 
 BO_ 1555 MPPT_2_Aux_Power_Supply: 8 ECU_MPPT
     SG_ Voltage_12V : 0|32@1+ (0.001,0) [0|15] "V" ECU_MPPT
