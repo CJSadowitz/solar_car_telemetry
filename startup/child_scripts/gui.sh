@@ -1,7 +1,5 @@
-echo "GUI Script"
-echo "Check display"
+echo "GUI.sh"
 source child_scripts/display.sh
 is_display_on
-export DISPLAY=:0
-echo "Init actual driver display here"
-
+source ../gui/venv/bin/activate
+python3 ../gui/main.py

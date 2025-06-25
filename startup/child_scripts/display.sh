@@ -4,6 +4,7 @@ check_display() {
 		return 0
 	else
 		echo "Display off"
+		export DISPLAY=:0
 		return 1
 	fi
 }
