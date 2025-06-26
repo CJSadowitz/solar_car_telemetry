@@ -6,7 +6,7 @@ import can_translator
 def update(root, battery, velocity, array):
 	data = get.get_dash_local()
 	speed = (data["body"][0])
-	velocity[0].set(str(speed[1]) + " MPH")
+	velocity[0].set(str(speed[1][:5]) + " MPH")
 	i = 0
 	net_wattage = 0
 	for tuple in data["body"][1:]:
