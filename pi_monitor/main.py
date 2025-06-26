@@ -6,6 +6,9 @@ import time
 def main():
 	interface = "wwan0"
 	old = lte_monitor.get_interface_stats(interface)
+	if (old == (None, None)):
+		print ("PI_MONITOR::main::main::interface_is_none")
+		return 1
 	while True:
 		time.sleep(1)
 		new = lte_monitor.get_interface_stats(interface)

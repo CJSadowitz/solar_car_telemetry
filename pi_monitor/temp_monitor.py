@@ -7,7 +7,4 @@ def get_pi_temp():
 
 	except Exception as e:
 		print ("PI_MONITOR::temp_monitor::get_pi_temp::exception:", e)
-
-	finally:
 		return -1
-

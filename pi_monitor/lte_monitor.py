@@ -9,10 +9,7 @@ def get_interface_stats(interface):
 					return received_bytes, transmitted_bytes
 	except Exception as e:
 		print ("PI_MONITOR::lte_monitor::get_interface_stats::exception:", e)
-
-	finally:
 		return None, None
-
 
 def get_delta_stats(old_tuple, new_tuple):
 	received    = new_tuple[0] - old_tuple[0]
