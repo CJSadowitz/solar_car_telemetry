@@ -7,26 +7,77 @@ def get_data():
 	conn = sqlite3.connect("../database.db")
 	cursor = conn.cursor()
 
-	battery = ["battery_pack_info", "pack_balance_state_of_charge", "min_max_cell_temp", "min_max_cell_voltage", "pack_state_of_charge"]
 	cmu1 = ["cmu_301", "cmu_302", "cmu_303"]
 	cmu2 = ["cmu_304", "cmu_305", "cmu_306"]
-	cmu3 = ["cmu_307", "cmu_307", "cmu_309"]
+	cmu3 = ["cmu_307", "cmu_308", "cmu_309"]
 	cmu4 = ["cmu_30A", "cmu_30B", "cmu_30C"]
+
+	all_data["z_cmu_1"] = get_cmu_data(cursor, cmu1)
+	all_data["z_cmu_2"] = get_cmu_data(cursor, cmu2)
+	all_data["z_cmu_3"] = get_cmu_data(cursor, cmu3)
+	all_data["z_cmu_4"] = get_cmu_data(cursor, cmu4)
+
+	all_data["a_pi_monitor"] = get_pi_monitor(cursor)
+
+
+	battery = ["battery_pack_info", "pack_balance_state_of_charge", "min_max_cell_temp", "min_max_cell_voltage", "pack_state_of_charge"]
 	mppt = ["mppt1_input", "mppt1_output", "mppt1_temp", "mppt2_input", "mppt2_output", "mppt2_temp"]
 	tables = battery + mppt
 
 	for table in tables:
 		data = get_can_table_data(cursor, table)
+		if table == "battery_pack_info" or table == "pack_state_of_charge":
+			all_data["a_" + table] = data
+			continue
 		all_data[table] = data
 
-	all_data["cmu_1"] = get_cmu_data(cursor, cmu1)
-	all_data["cmu_2"] = get_cmu_data(cursor, cmu2)
-	all_data["cmu_3"] = get_cmu_data(cursor, cmu3)
-	all_data["cmu_4"] = get_cmu_data(cursor, cmu4)
+	all_data["a_speed"] = get_speed(cursor)
 
 	conn.close()
 
 	return all_data
+
+def get_speed(cursor):
+	cursor.execute("SELECT * FROM vehicle_speed ORDER BY timestamp DESC LIMIT 1")
+	db_data = cursor.fetchall()
+	i = 0
+	clean_list = []
+	item_dict = {}
+	actual_data = db_data[0]
+	for item in actual_data:
+		if i == 0:
+			clean_list.append(item)
+		elif i == 1:
+			item_dict["speed_mph"] = float(item)
+		i += 1
+	clean_list.append(item_dict)
+	return_list = []
+	return_list.append(clean_list)
+	return return_list
+
+def get_pi_monitor(cursor):
+	cursor.execute(f"SELECT * FROM pi_monitor ORDER BY timestamp DESC LIMIT 1")
+	db_data = cursor.fetchall()
+	i = 0
+	clean_list = []
+	item_dict = {}
+	actual_data = db_data[0]
+	for item in actual_data:
+		if i == 0:
+			clean_list.append(item)
+		elif i == 1:
+			item_dict["received"] = float(item)
+		elif i == 2:
+			item_dict["transmitted"] = float(item)
+		elif i == 3:
+			item_dict["total"] = float(item)
+		elif i == 4:
+			item_dict["pi_temp"] = float(item)
+		i += 1
+	clean_list.append(item_dict)
+	return_list = []
+	return_list.append(clean_list)
+	return return_list
 
 def get_cmu_data(cursor, cmus):
 	data = []
@@ -74,7 +125,7 @@ def get_dash():
 
 		data = {}
 		data["pi_monitor"] = get_pi_dash(cursor, "pi_monitor")
-		# data["speed"]      = get_pi_dash(cursor, "vehicle_speed")
+		data["speed"]      = get_pi_dash(cursor, "vehicle_speed")
 
 	except Exception as e:
 		print ("WEB_SERVER::get::get_dash:exception:", e)
@@ -108,6 +159,8 @@ def get_graph_data_db(cursor, table_name, amount):
 	data = list(cursor.fetchall())
 	list_data = []
 	for row in data:
+		dt = datetime.utcfromtimestamp(row[0])
+		list_data.append(dt.strftime("%Y-%m-%d %H: %M: %S.%f"))
 		list_data.append(can_translater.convert_data(table_name, row[1]))
 
 	return list_data
@@ -117,14 +170,22 @@ def sort_graph_sections(list_dicts):
 	section_2 = []
 	item_1 = None
 	item_2 = None
+	time_stamp = None
+	j = 0
+	# print (list_dicts)
 	for item in list_dicts:
+		if j % 2 == 0:
+			time_stamp = item
+			j += 1
+			continue
+		j += 1
 		i = 0
 		for key in item:
 			if i == 0:
-				section_1.append(item[key])
+				section_1.append([time_stamp, item[key]])
 				item_1 = key
 			elif i == 1:
-				section_2.append(item[key])
+				section_2.append([time_stamp, item[key]])
 				item_2 = key
 			i += 1
 	return section_1, section_2, item_1, item_2
