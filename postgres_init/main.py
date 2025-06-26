@@ -1,8 +1,8 @@
-import sqlite3
 import init_db
+import asyncio
 
 def main():
-	init_db.init_database()
+	asyncio.run(init_db.initialize_database())
 
 if __name__ == "__main__":
 	main()
