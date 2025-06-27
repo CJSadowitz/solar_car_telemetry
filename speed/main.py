@@ -3,6 +3,7 @@ import serial_helper
 import write_db
 import speed_calculator
 import math
+import asyncio
 
 def main():
 	port = "/dev/ttyACM0"
@@ -26,7 +27,7 @@ def main():
 				mph = speed_calculator.calculate_mph(rpm)
 				time_list = []
 				# print (f"MPH: {mph:.2f}, {hex(math.floor(mph))}")
-				write_db.save_data(mph)
+				asyncio.run(write_db.save_data(mph))
 			# print (line)
 
 if __name__ == "__main__":
