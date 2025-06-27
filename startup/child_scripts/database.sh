@@ -1,3 +1,5 @@
-echo "Setting up database"
-source ../sqlite_db/venv/bin/activate
-python3 ../sqlite_db/main.py
+echo "DATABASE.sh::running"
+source ../postgres_init/venv/bin/activate
+python3 ../postgres_init/main.py
+echo "DATABASE.sh::finished"
+
