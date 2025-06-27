@@ -4,18 +4,22 @@ import datetime
 
 async def initialize_database():
 	conn = await psycopg.AsyncConnection.connect("dbname=solar_telemetry user=solar")
-	async with conn:
+	try:
 		cursor = conn.cursor()
 		await init_tables(cursor)
-
-	await conn.commit()
-	await conn.close()
+	except:
+		await conn.rollback()
+		raise
+	finally:
+		await conn.commit()
+		await conn.close()
 
 async def init_tables(cursor):
 	await cursor.execute(f"""
 	CREATE TABLE IF NOT EXISTS can (
 		timestamp TIMESTAMP PRIMARY KEY DEFAULT CURRENT_TIMESTAMP,
-		can_id TEXT NOT NULL
+		can_id TEXT NOT NULL,
+		raw_data TEXT NOT NULL
 	);
 	""")
 
