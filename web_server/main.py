@@ -13,10 +13,6 @@ def get_data():
 def get_graph_data():
 	return { "body": get.get_graph_data() }
 
-@app.route("/get_dash", methods=["GET"])
-def get_dash():
-	return {"body": get.get_dash() }
-
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=8008)
 
