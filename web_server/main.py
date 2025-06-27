@@ -3,6 +3,7 @@ from flask_cors import CORS
 import asyncio
 import get_data_page
 import get_graph_page
+import get_dash_page
 
 app = Flask(__name__, static_folder="static")
 CORS(app)
@@ -14,6 +15,10 @@ def get_data():
 @app.route("/get_graph_data", methods=["GET"])
 def get_graph_data():
 	return { "body": asyncio.run(get_graph_page.get_graph_data()) }
+
+@app.route("/get_dash_data", methods=["GET"])
+def get_dash_data():
+	return asyncio.run(get_dash_page.get_dash())
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=8008)
