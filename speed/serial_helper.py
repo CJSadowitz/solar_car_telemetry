@@ -1,17 +1,21 @@
 import serial
 
 def get_serial(port):
-	ser = serial.Serial(port, baudrate=9600, timeout=1)
-	if ser == None:
-		print ("SPEED::serial_helper::get_serial:serial port not found")
+	ser = serial.Serial(port, baudrate=9600, timeout=3)
 	return ser
 
 def get_line(ser):
 	line = None
-	if ser.in_waiting:
-		try:
-			line = ser.readline().decode("utf-8").strip()
-		except Exception as e:
-			# print ("SPEED::serial_helper::get_line::exception:", e)
-			return "-1"
-	return line
+	try:
+		data = ser.readline()
+		if data == b'':
+			return "0"
+
+		return data.decode("utf-8").strip()
+
+	except KeyboardInterrupt:
+		return "end"
+
+	except Exception as e:
+		# print ("SPEED::serial_helper::get_line::exception:", e)
+		return "-1"

@@ -15,12 +15,21 @@ def main():
 	while True:
 		line = serial_helper.get_line(ser)
 		if line != None:
+			if line == "end":
+				break
+
+			if line == "0":
+				mph = 0
+				asyncio.run(write_db.save_data(mph))
+				continue
+
 			if line != "-1"and line != '':
 				if float(line) < 100 and len(time_list) != 0:
 					time_list.append(time_list[-1])
 				time_list.append(float(line))
 			else:
 				time_list.append(0)
+
 			# print (time_list)
 			if len(time_list) > 96:
 				rpm = speed_calculator.calculate_rpm(time_list)
