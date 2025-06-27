@@ -1,6 +1,7 @@
 import serial
 import pynmea2
 import write_db
+import asyncio
 
 def main():
 	ser = get_serial_port("/dev/ttyACM0")
@@ -31,7 +32,7 @@ def loop_gps_lines(ser):
 		elif line.startswith("$GNGGA"):
 			alt = msg.altitude
 		if (lat != None and lon != None and alt != None):
-			write_db.save_message(lat, lon, alt)
+			asyncio.run(init_db.initialize_database())(write_db.save_message(lat, lon, alt))
 			lat, lon, alt = None, None, None
 			return 0
 
