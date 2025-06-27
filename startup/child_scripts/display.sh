@@ -1,9 +1,9 @@
 check_display() {
 	if [[ -n "$DISPLAY" ]] && xrandr >/dev/null 2>&1; then
-		echo "Display on"
+		echo "DISPLAY.sh::Display on"
 		return 0
 	else
-		echo "Display off"
+		echo "DISPLAY.sh::Display off"
 		export DISPLAY=:0
 		return 1
 	fi
