@@ -6,7 +6,7 @@ import asyncio
 
 def update(root, battery, velocity, array):
 	data = asyncio.run(get.get_gui())
-	speed = data["vehicle_speed"]
+	speed = data["vehicle_speed"][0]
 	if speed != None:
 		velocity[0].set(str(speed[:5]) + " MPH")
 
@@ -40,4 +40,4 @@ def get_net_wattage(data_dict):
 	input_wattage  = mppt1_input_wattage  + mppt2_input_wattage
 	output_wattage = mppt1_output_wattage + mppt2_output_wattage
 
-	return str(input_wattage - output_wattage)
+	return str(input_wattage - output_wattage)[:5]
