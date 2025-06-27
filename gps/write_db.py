@@ -1,16 +1,15 @@
-import sqlite3
+import asyncio
+import psycopg
 
-def save_message(lat, lon, alt):
-	conn = None
+async def save_message(lat, lon, alt):
+	conn = await psycopg.AsyncConnection.connect("dbname=solar_telemetry user=solar")
 	try:
-		conn = sqlite3.connect("../database.db")
 		cursor = conn.cursor()
-		query = f"INSERT INTO gps (latitude, longitude, altitude) VALUES (?, ?, ?)"
-		cursor.execute(query, (lat, lon, alt))
-		conn.commit()
+		await cursor.execute("INSERT INTO gps (latitude, longitude, altitude) VALUES (%s, %s, %s)", (lat, lon, alt))
+		await conn.commit()
 
 	except Exception as e:
 		print ("WRITE_DB::save_message::unknown exception:", e)
-
+		await conn.rollback()
 	finally:
-		conn.close()
+		await conn.close()
