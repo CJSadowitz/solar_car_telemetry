@@ -4,7 +4,7 @@ import write_db
 import asyncio
 
 def main():
-	ser = get_serial_port("/dev/ttyACM0")
+	ser = get_serial_port("/dev/gps")
 	if (ser == None):
 		return 1
 
@@ -25,7 +25,11 @@ def get_serial_port(port):
 def loop_gps_lines(ser):
 	try:
 		lat, lon, alt = None, None, None
-		line = ser.readline().decode("utf-8").strip()
+		data = ser.readline()
+		if data == b'':
+			return 0
+
+		line = data.decode("utf-8").strip()
 		msg = pynmea2.parse(line)
 		if line.startswith("$GNRMC"):
 			lat, lon = msg.latitude, msg.longitude

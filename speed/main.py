@@ -6,7 +6,7 @@ import math
 import asyncio
 
 def main():
-	port = "/dev/ttyACM0"
+	port = "/dev/arduino_speed"
 	ser = None
 	while ser == None:
 		ser = serial_helper.get_serial(port)
