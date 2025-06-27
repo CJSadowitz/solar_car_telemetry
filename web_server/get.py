@@ -20,6 +20,16 @@ async def get_data():
 		all_data["z:_cmu_3"] = await get_cmu_data(cursor, cmu3)
 		all_data["z:_cmu_4"] = await get_cmu_data(cursor, cmu4)
 
+		mppt_name = ["mppt1_input", "mppt1_output", "mppt1_temp", "mppt2_input", "mppt2_output", "mppt2_temp"]
+		mppt_id   = ["600", "601", "602", "610", "611", "612"]
+		for i in range(len(mppt_id)):
+			all_data[mppt_name[i]] = await get_can_table_data(cursor, mppt_id[i])
+
+		battery_name = ["battery_pack_info", "pack_balance_state_of_charge", "min_max_cell_temp", "min_max_cell_voltage", "pack_state_of_charge"]
+		battery_id = ["3fa", "3f5", "3f9", "3f8", "3f4"]
+		for i in range(len(battery_id)):
+			all_data[battery_name[i]] = await get_can_table_data(cursor, battery_id[i])
+
 	except Exception as e:
 		print ("WEB_SERVER::get::get_data::exception:", e)
 
@@ -27,29 +37,13 @@ async def get_data():
 		await conn.close()
 		return all_data
 
-	# battery = ["battery_pack_info", "pack_balance_state_of_charge", "min_max_cell_temp", "min_max_cell_voltage", "pack_state_of_charge"]
-	# mppt = ["mppt1_input", "mppt1_output", "mppt1_temp", "mppt2_input", "mppt2_output", "mppt2_temp"]
-
-	# for table in tables:
-	#	data = get_can_table_data(cursor, table)
-	#	if table == "battery_pack_info" or table == "pack_state_of_charge":
-	#		all_data["a:_" + table] = data
-	#		continue
-	#	all_data[table] = data
-
-
 async def get_speed(cursor):
 	await cursor.execute("SELECT * FROM vehicle_speed ORDER BY timestamp DESC LIMIT 1")
 	db_data = await cursor.fetchone()
-	i = 0
 	clean_list = []
 	item_dict = {}
-	for item in db_data:
-		if i == 0:
-			clean_list.append(item)
-		elif i == 1:
-			item_dict["speed_mph"] = float(item)
-		i += 1
+	clean_list.append(db_data[0].strftime("%Y-%m-%d %H:%M:%S"))
+	item_dict["speed_mph"] = float(db_data[1])
 	clean_list.append(item_dict)
 	return_list = []
 	return_list.append(clean_list)
@@ -58,21 +52,13 @@ async def get_speed(cursor):
 async def get_pi_monitor(cursor):
 	await cursor.execute("SELECT * FROM pi_monitor ORDER BY timestamp DESC LIMIT 1")
 	db_data = await cursor.fetchone()
-	i = 0
 	clean_list = []
 	item_dict = {}
-	for item in db_data:
-		if i == 0:
-			clean_list.append(item)
-		elif i == 1:
-			item_dict["received"] = float(item)
-		elif i == 2:
-			item_dict["transmitted"] = float(item)
-		elif i == 3:
-			item_dict["total"] = float(item)
-		elif i == 4:
-			item_dict["pi_temp"] = float(item)
-		i += 1
+	clean_list.append(db_data[0].strftime("%Y-%m-%d %H:%M:%S"))
+	item_dict["received"]    = float(db_data[1])
+	item_dict["transmitted"] = float(db_data[2])
+	item_dict["total"]       = float(db_data[3])
+	item_dict["pi_temp"]     = float(db_data[4])
 	clean_list.append(item_dict)
 	return_list = []
 	return_list.append(clean_list)
@@ -85,7 +71,7 @@ async def get_cmu_data(cursor, cmus):
 		list_data = []
 		await cursor.execute("SELECT timestamp, raw_data FROM can WHERE can_id=%s ORDER BY timestamp DESC LIMIT 1", (cmu,))
 		db_data = await cursor.fetchone()
-		list_data.append(db_data[0])
+		list_data.append(db_data[0].strftime("%Y-%m-%d %H:%M:%S"))
 		dict_data = can_translator.convert_data(cmu, db_data[1])
 		for key in dict_data:
 			if "Voltage" in key:
@@ -98,23 +84,21 @@ async def get_cmu_data(cursor, cmus):
 	data.append(list_data)
 	return data
 
-def get_can_table_data(cursor, table_name):
-	data = []
-	cursor.execute(f"SELECT timestamp, raw FROM {table_name} ORDER BY timestamp DESC LIMIT 1")
-	data = list(cursor.fetchall())
+async def get_can_table_data(cursor, id):
+	await cursor.execute("SELECT timestamp, raw_data FROM can WHERE can_id=%s ORDER BY timestamp DESC LIMIT 1", (id,))
+	data = await cursor.fetchone()
 	cleaned_data = []
-	for row in data:
-		list_data = []
-		dt = datetime.utcfromtimestamp(row[0])
-		list_data.append(dt.strftime("%Y-%m-%d %H: %M: %S.%f"))
-		can_dict = can_translater.convert_data(table_name, row[1])
-		if (table_name == "battery_pack_info"):
-			can_dict["Pack_Power"] = can_dict["Pack_Current"] * can_dict["Pack_Voltage"]
-		list_data.append(can_dict)
-		cleaned_data.append(list_data)
+	list_data = []
+	list_data.append(data[0].strftime("%Y-%m-%d %H:%M:%S"))
+	can_dict = can_translator.convert_data(id, data[1])
+	if (id == "3fa"):
+		can_dict["Pack_Power"] = float(can_dict["Pack_Current"]) * float(can_dict["Pack_Voltage"])
+	list_data.append(can_dict)
+	cleaned_data.append(list_data)
 
 	return cleaned_data
 
+# FIX THIS NEXT :D
 def get_graph_data():
 	tables = ["pack_state_of_charge", "battery_pack_info"]
 	amount = 10

@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
+import asyncio
 import get
 
 app = Flask(__name__, static_folder="static")
@@ -7,7 +8,7 @@ CORS(app)
 
 @app.route("/get_data", methods=["GET"])
 def get_data():
-	return { "body": get.get_data() }
+	return { "body": asyncio.run(get.get_data()) }
 
 @app.route("/get_graph_data", methods=["GET"])
 def get_graph_data():
