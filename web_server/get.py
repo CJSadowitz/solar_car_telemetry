@@ -12,12 +12,12 @@ def get_data():
 	cmu3 = ["cmu_307", "cmu_308", "cmu_309"]
 	cmu4 = ["cmu_30A", "cmu_30B", "cmu_30C"]
 
-	all_data["z_cmu_1"] = get_cmu_data(cursor, cmu1)
-	all_data["z_cmu_2"] = get_cmu_data(cursor, cmu2)
-	all_data["z_cmu_3"] = get_cmu_data(cursor, cmu3)
-	all_data["z_cmu_4"] = get_cmu_data(cursor, cmu4)
+	all_data["z:_cmu_1"] = get_cmu_data(cursor, cmu1)
+	all_data["z:_cmu_2"] = get_cmu_data(cursor, cmu2)
+	all_data["z:_cmu_3"] = get_cmu_data(cursor, cmu3)
+	all_data["z:_cmu_4"] = get_cmu_data(cursor, cmu4)
 
-	all_data["a_pi_monitor"] = get_pi_monitor(cursor)
+	all_data["a:_pi_monitor"] = get_pi_monitor(cursor)
 
 
 	battery = ["battery_pack_info", "pack_balance_state_of_charge", "min_max_cell_temp", "min_max_cell_voltage", "pack_state_of_charge"]
@@ -27,11 +27,11 @@ def get_data():
 	for table in tables:
 		data = get_can_table_data(cursor, table)
 		if table == "battery_pack_info" or table == "pack_state_of_charge":
-			all_data["a_" + table] = data
+			all_data["a:_" + table] = data
 			continue
 		all_data[table] = data
 
-	all_data["a_speed"] = get_speed(cursor)
+	all_data["aa:_speed"] = get_speed(cursor)
 
 	conn.close()
 
@@ -118,27 +118,6 @@ def get_can_table_data(cursor, table_name):
 
 	return cleaned_data
 
-def get_dash():
-	try:
-		conn = sqlite3.connect("../database.db")
-		cursor = conn.cursor()
-
-		data = {}
-		data["pi_monitor"] = get_pi_dash(cursor, "pi_monitor")
-		data["speed"]      = get_pi_dash(cursor, "vehicle_speed")
-
-	except Exception as e:
-		print ("WEB_SERVER::get::get_dash:exception:", e)
-
-	finally:
-		conn.close()
-		return data
-
-def get_pi_dash(cursor, table):
-	cursor.execute(f"SELECT * FROM {table} ORDER BY timestamp DESC LIMIT 1")
-	return cursor.fetchall()
-
-
 def get_graph_data():
 	tables = ["pack_state_of_charge", "battery_pack_info"]
 	amount = 10
@@ -172,7 +151,6 @@ def sort_graph_sections(list_dicts):
 	item_2 = None
 	time_stamp = None
 	j = 0
-	# print (list_dicts)
 	for item in list_dicts:
 		if j % 2 == 0:
 			time_stamp = item
@@ -189,18 +167,3 @@ def sort_graph_sections(list_dicts):
 				item_2 = key
 			i += 1
 	return section_1, section_2, item_1, item_2
-
-def get_gui():
-	conn = sqlite3.connect("../database.db")
-	cursor = conn.cursor()
-	tables = ["vehicle_speed", "pack_state_of_charge", "battery_pack_info", "mppt1_input", "mppt1_output", "mppt2_input", "mppt2_output"]
-	data = []
-	for table in tables:
-		data += get_pi_dash(cursor, table)
-
-	conn.close()
-
-	return data
-
-if __name__ == "__main__":
-	print (get_data())
