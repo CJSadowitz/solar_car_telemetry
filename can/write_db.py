@@ -1,4 +1,5 @@
-import sqlite3
+import asyncio
+import psycopg
 
 def clean_message(message):
 	message = format(message)
@@ -15,30 +16,19 @@ def format(msg):
 	formatted_message = str(timestamp) + ' ' + id[2:] + '#' + str(data)
 	return formatted_message
 
-def save_data(data_list):
+async def save_data(data_list):
 	try:
-		conn = sqlite3.connect("../database.db")
-		cursor = conn.cursor()
+		conn = await psycopg.AsyncConnection.connect("dbname=solar_telemetry user=solar")
 
-		timestamp = data_list[0]
-		can_id = data_list[1]
+		id = data_list[1]
 		raw = data_list[2]
 
-		cursor.execute("SELECT table_name FROM can_devices WHERE can_id = ?", (can_id,))
-		result = cursor.fetchone()
+		async with conn:
+			cursor = conn.cursor()
+			await cursor.execute("INSERT INTO can (can_id, raw_data) VALUES (%s, %s)", (id, raw))
 
-		if result:
-			table_name = result[0]
-			query = f"INSERT INTO {table_name} (timestamp, can_id, raw) VALUES (?, ?, ?)"
-			cursor.execute(query, (timestamp, can_id, raw))
-			conn.commit()
-		else:
-			print (f"CAN::WRITE_DB::save_data::{can_id} not found in can_tables")
-
-	except sqlite3.Error as e:
-		print ("CAN::WRITE_DB::save_data::sqlite3_error:", e)
 	except Exception as e:
 		print ("CAN::WRITE_DB::save_data::exception:", e)
 
 	finally:
-		conn.close()
+		await conn.close()
